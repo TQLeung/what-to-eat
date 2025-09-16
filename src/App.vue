@@ -1,7 +1,7 @@
 <template>
     <div id="app" class="min-h-screen">
         <router-view />
-        <FloatingDonation />
+        <!-- <FloatingDonation /> -->
     </div>
 </template>
 

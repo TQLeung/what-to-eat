@@ -157,7 +157,7 @@
             </div>
 
             <!-- 效果图区域 -->
-            <div class="mt-4 pt-4 border-t border-gray-200">
+            <div class="mt-4 pt-4 border-t border-gray-200" v-if="false">
                 <div class="flex items-center justify-between mb-3">
                     <h4 class="text-sm font-bold text-dark-800 flex items-center gap-1">🖼️ 菜品效果图</h4>
                     <button
@@ -238,7 +238,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
     favoriteChanged: [isFavorited: boolean]
 }>()
-const isExpanded = ref(false)
+const isExpanded = ref(true)
 const isGeneratingImage = ref(false)
 const generatedImage = ref<GeneratedImage | null>(null)
 const imageError = ref<string>('')

@@ -2,9 +2,48 @@
   <div class="min-h-screen bg-gray-900 px-2 md:px-4 py-6">
     <!-- 全局导航 -->
     <!-- <GlobalNavigation /> -->
-    <div
-      style="opacity: 1; border-radius: 8px; background: rgba(255, 255, 255, 1)"
-    ></div>
+    <div class="banner">
+      <div style="display: flex; align-items: center;padding-left: 9%;">
+        <img
+          src="/images/chef@3x.png"
+          alt="Chef"
+          style="width: 141px;"
+        />
+        <div style="display: flex; flex-direction: column">
+          <div
+            style="
+              font-size: 36px;
+              font-weight: 700;
+              letter-spacing: 0px;
+              line-height: 44.14px;
+              color: rgba(77, 107, 254, 1);
+              text-align: left;
+            "
+          >
+            AI智慧大厨
+          </div>
+          <div
+            style="
+              font-size: 16px;
+              font-weight: 700;
+              letter-spacing: 0px;
+              line-height: 18.94px;
+              color: rgba(44, 58, 234, 1);
+              text-align: left;
+              font-family: '悠哉字体';
+              margin-top: 14px;
+            "
+          >
+            灵感不枯竭，美味又对味，不止是菜谱
+          </div>
+        </div>
+      </div>
+      <img
+        src="/images/rx_chef.png"
+        alt="RX"
+        style="width: 139px; height: 38px; position: absolute; right:7%;"
+      />
+    </div>
 
     <div class="max-w-7xl mx-auto">
       <!-- 步骤1: 输入食材 -->
@@ -839,11 +878,19 @@
     </div>
 
     <!-- 底部 -->
-    <GlobalFooter />
+    <!-- <GlobalFooter /> -->
   </div>
 </template>
 
 <style scoped>
+.banner {
+  opacity: 1;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 1);
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
 @keyframes fade-in-up {
   from {
     opacity: 0;

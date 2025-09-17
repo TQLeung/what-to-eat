@@ -3,7 +3,7 @@
     <!-- 全局导航 -->
     <!-- <GlobalNavigation /> -->
     <div class="banner max-w-7xl mx-auto px-3 md:px-4 pb-2 md:pb-0">
-      <div style="display: flex; align-items: center;">
+      <div style="display: flex; align-items: center">
         <img
           src="/images/chef@3x.png"
           alt="Chef"
@@ -11,24 +11,12 @@
           style="width: 141px"
         />
         <div style="display: flex; flex-direction: column">
-          <div
-            class="text-2xl md:text-4xl"
-            style="
-              letter-spacing: 0px;
-              line-height: 44.14px;
-              color: rgba(77, 107, 254, 1);
-              text-align: left;
-            "
-          >
+          <div class="text-2xl md:text-4xl font-bold text-[rgba(77,107,254,1)]">
             AI智慧大厨
           </div>
           <div
-            class="text-xs md:text-base pt-0 md:pt-2"
+            class="text-xs md:text-base pt-0 md:pt-2 text-[rgba(44,58,234,1)]"
             style="
-              letter-spacing: 0px;
-              line-height: 18.94px;
-              color: rgba(44, 58, 234, 1);
-              text-align: left;
               font-family: '悠哉字体';
             "
           >
@@ -40,7 +28,7 @@
         src="/images/rx_chef.png"
         class="mr-1 md:mr-10"
         alt="RX"
-        style="width: 139px; height: 38px"
+        style="width: 139px;"
       />
     </div>
 
@@ -942,8 +930,8 @@ import { ref, onUnmounted } from "vue";
 import { cuisines } from "@/config/cuisines";
 import { ingredientCategories } from "@/config/ingredients";
 import RecipeCard from "@/components/RecipeCard.vue";
-import GlobalNavigation from "@/components/GlobalNavigation.vue";
-import GlobalFooter from "@/components/GlobalFooter.vue";
+// import GlobalNavigation from "@/components/GlobalNavigation.vue";
+// import GlobalFooter from "@/components/GlobalFooter.vue";
 import {
   generateCustomRecipe,
   generateMultipleRecipesStream,

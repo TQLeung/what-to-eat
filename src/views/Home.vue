@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gray-900 px-2 md:px-4 py-6">
     <!-- 全局导航 -->
     <!-- <GlobalNavigation /> -->
-    <div class="banner max-w-7xl mx-auto px-3 md:px-4 pb-2 md:pb-0">
+    <div class="banner max-w-7xl mx-auto px-3 md:px-4 py-2 md:pb-0">
       <div style="display: flex; align-items: center">
         <img
           src="/images/chef@3x.png"

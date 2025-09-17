@@ -445,8 +445,8 @@ const getModalImageData = (): GalleryImage | null => {
     }
 }
 onMounted(()=>{
-    fetchNutritionAnalysis()
-    fetchWinePairing()
+    // fetchNutritionAnalysis()
+    // fetchWinePairing()
 })
 onUnmounted(() => {
     if (imageLoadingInterval) {

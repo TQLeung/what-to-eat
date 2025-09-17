@@ -216,7 +216,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onUnmounted } from 'vue'
+import { computed, ref, onUnmounted, onMounted } from 'vue'
 import type { Recipe } from '@/types'
 import { generateRecipeImage, type GeneratedImage } from '@/services/imageService'
 import { getNutritionAnalysis, getWinePairing } from '@/services/aiService'
@@ -444,7 +444,10 @@ const getModalImageData = (): GalleryImage | null => {
         generatedAt: new Date().toISOString()
     }
 }
-
+onMounted(()=>{
+    fetchNutritionAnalysis()
+    fetchWinePairing()
+})
 onUnmounted(() => {
     if (imageLoadingInterval) {
         clearInterval(imageLoadingInterval)

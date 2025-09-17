@@ -437,9 +437,9 @@ export const generateCustomRecipe = async (
       temperature: AI_CONFIG.temperature,
       max_tokens: 2000,
       stream: false,
-      thinking: {
-        type: "disabled",
-      },
+    //   thinking: {
+    //     type: "disabled",
+    //   },
     });
 
     const aiResponse = response.data.choices[0].message.content;
@@ -583,6 +583,9 @@ export const getNutritionAnalysis = async (
       ],
       temperature: 0.5, // 使用更低的temperature以获得更准确的分析
       stream: false,
+      thinking: {
+        type: "disabled",
+      },
     });
 
     // 解析AI响应
@@ -645,6 +648,9 @@ export const getWinePairing = async (recipe: Recipe): Promise<WinePairing> => {
       ],
       temperature: 0.7,
       stream: false,
+      thinking: {
+        type: "disabled",
+      },
     });
 
     // 解析AI响应

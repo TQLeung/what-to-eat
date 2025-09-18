@@ -177,7 +177,7 @@
       </div>
 
       <!-- 步骤2和3: 左右布局 -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <!-- 步骤2: 选择菜系 -->
         <div>
           <div
@@ -433,7 +433,7 @@
         </div>
 
         <!-- 步骤3: 交给大师 -->
-        <div class="max-sm:mt-10">
+        <div class="max-md:mt-10">
           <div
             class="bg-orange-400 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block"
           >

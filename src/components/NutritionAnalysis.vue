@@ -5,13 +5,13 @@
             <div class="grid grid-cols-2 gap-3">
                 <div class="bg-white rounded-lg p-3 border border-green-300">
                     <div class="text-center">
-                        <div class="text-2xl font-bold text-orange-600">{{ nutritionAnalysis.nutrition.calories }}</div>
+                        <div class="text-4xl font-bold text-orange-600">{{ nutritionAnalysis.nutrition.calories }}</div>
                         <div class="text-md text-gray-600">卡路里</div>
                     </div>
                 </div>
                 <div class="bg-white rounded-lg p-3 border border-green-300">
                     <div class="text-center">
-                        <div class="text-lg font-bold text-green-600">{{ nutritionAnalysis.healthScore }}/10</div>
+                        <div class="text-4xl font-bold text-green-600">{{ nutritionAnalysis.healthScore }}/10</div>
                         <div class="text-md text-gray-600">健康评分</div>
                     </div>
                 </div>
@@ -19,8 +19,8 @@
 
             <!-- 营养成分详情 -->
             <div class="bg-white rounded-lg p-3 border border-green-300">
-                <h5 class="text-md font-bold text-gray-700 mb-2">营养成分 ({{ nutritionAnalysis.servingSize }})</h5>
-                <div class="grid grid-cols-2 gap-2 text-md">
+                <h5 class="text-2xl font-bold text-gray-700 mb-2">营养成分 ({{ nutritionAnalysis.servingSize }})</h5>
+                <div class="grid grid-cols-2 gap-2 text-2xl">
                     <div class="flex justify-between">
                         <span class="text-gray-600">蛋白质</span>
                         <span class="font-medium">{{ nutritionAnalysis.nutrition.protein }}g</span>
@@ -62,7 +62,7 @@
 
             <!-- 饮食标签 -->
             <div v-if="nutritionAnalysis.dietaryTags.length > 0">
-                <h5 class="text-md font-bold text-gray-700 mb-2">饮食特点</h5>
+                <h5 class="text-2xl font-bold text-gray-700 mb-2">饮食特点</h5>
                 <div class="flex flex-wrap gap-1">
                     <span
                         v-for="tag in nutritionAnalysis.dietaryTags"
@@ -76,7 +76,7 @@
 
             <!-- 营养均衡建议 -->
             <div v-if="nutritionAnalysis.balanceAdvice.length > 0">
-                <h5 class="text-md font-bold text-gray-700 mb-2">营养建议</h5>
+                <h5 class="text-2xl font-bold text-gray-700 mb-2">营养建议</h5>
                 <div class="bg-blue-50 border border-blue-200 rounded p-3">
                     <ul class="space-y-1">
                         <li v-for="advice in nutritionAnalysis.balanceAdvice" :key="advice" class="flex items-start gap-2 text-blue-800">

@@ -22,9 +22,9 @@
         <div class="p-2 md:p-6">
             <!-- 食材列表 -->
             <div class="mb-4">
-                <h4 class="text-lg font-bold text-dark-800 mb-2 flex items-center gap-1"><img src="/icon/树叶.png" style="width: 20px; height: 20px;"/> 所需食材</h4>
+                <h4 class="text-2xl font-bold text-dark-800 mb-2 flex items-center gap-1"><img src="/icon/树叶.png" style="width: 20px; height: 20px;"/> 所需食材</h4>
                 <div class="flex flex-wrap gap-1">
-                    <span v-for="ingredient in recipe.ingredients" :key="ingredient" class="bg-yellow-400 text-dark-800 px-2 py-1 rounded text-md font-medium border border-black">
+                    <span v-for="ingredient in recipe.ingredients" :key="ingredient" class="bg-yellow-400 text-dark-800 px-2 py-1 rounded text-xl font-medium border border-black">
                         {{ ingredient }}
                     </span>
                 </div>
@@ -33,7 +33,7 @@
             <!-- 制作步骤预览 -->
             <div class="mb-4">
                 <div class="flex items-center justify-between mb-2">
-                    <h4 class="text-lg font-bold text-dark-800 flex items-center gap-1">📝 制作步骤</h4>
+                    <h4 class="text-2xl font-bold text-dark-800 flex items-center gap-1">📝 制作步骤</h4>
                     <button @click="toggleExpanded" class="bg-gray-100 hover:bg-gray-200 text-dark-800 text-md px-2 py-1 rounded border border-black transition-colors">
                         {{ isExpanded ? '收起' : '展开' }}
                     </button>
@@ -59,7 +59,7 @@
                             {{ step.step }}
                         </div>
                         <div class="flex-1">
-                            <p class="text-dark-800 mb-1 text-lg">{{ step.description }}</p>
+                            <p class="text-dark-800 mb-1 text-2xl">{{ step.description }}</p>
                             <div v-if="step.time || step.temperature" class="flex gap-2 text-md text-gray-600">
                                 <span v-if="step.time" class="bg-white px-2 py-1 rounded border"> ⏱️ {{ formatTime(step.time) }} </span>
                                 <span v-if="step.temperature" class="bg-white px-2 py-1 rounded border"> 🌡️ {{ step.temperature }} </span>
@@ -71,12 +71,12 @@
 
             <!-- 烹饪技巧 -->
             <div v-if="recipe.tips && recipe.tips.length > 0 && isExpanded" class="mb-4">
-                <h4 class="text-lg font-bold text-dark-800 mb-2 flex items-center gap-1">💡 烹饪技巧</h4>
+                <h4 class="text-2xl font-bold text-dark-800 mb-2 flex items-center gap-1">💡 烹饪技巧</h4>
                 <div class="bg-yellow-100 border-l-4 border-yellow-400 p-3 rounded-r">
                     <ul class="space-y-1">
                         <li v-for="tip in recipe.tips" :key="tip" class="flex items-start gap-2 text-dark-700">
-                            <span class="text-yellow-600 mt-1 text-xs">•</span>
-                            <span class="text-md">{{ tip }}</span>
+                            <span class="text-yellow-600 mt-1 text-2xl">•</span>
+                            <span class="text-2xl">{{ tip }}</span>
                         </li>
                     </ul>
                 </div>
@@ -85,7 +85,7 @@
             <!-- 营养分析 -->
             <div v-if="isExpanded" class="mb-4">
                 <div class="flex items-center justify-between mb-3">
-                    <h4 class="text-lg font-bold text-dark-800 flex items-center gap-1">📊 营养分析</h4>
+                    <h4 class="text-2xl font-bold text-dark-800 flex items-center gap-1">📊 营养分析</h4>
                     <button
                         @click="fetchNutritionAnalysis"
                         :disabled="isFetchingNutrition"
@@ -122,7 +122,7 @@
             <!-- 酒水搭配 -->
             <div v-if="isExpanded" class="mb-4">
                 <div class="flex items-center justify-between mb-3">
-                    <h4 class="text-lg font-bold text-dark-800 flex items-center gap-1">🍷 酒水搭配</h4>
+                    <h4 class="text-2xl font-bold text-dark-800 flex items-center gap-1">🍷 酒水搭配</h4>
                     <button
                         @click="fetchWinePairing"
                         :disabled="isFetchingWine"

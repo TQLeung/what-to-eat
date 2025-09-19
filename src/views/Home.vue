@@ -687,7 +687,7 @@
                     <div class="flex items-center justify-between">
                       <div class="flex-1">
                         <h3
-                          class="text-lg font-bold mb-1 flex items-center gap-2"
+                          class="text-2xl font-bold mb-1 flex items-center gap-2"
                         >
                           <span class="animate-pulse">👨‍🍳</span>
                           {{ cuisineInfo.name }}创作中...
@@ -765,10 +765,10 @@
                       <div
                         class="w-16 h-16 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin mx-auto mb-4"
                       ></div>
-                      <h3 class="text-lg font-bold text-dark-800 mb-2">
+                      <h3 class="text-4xl font-bold text-dark-800 mb-2">
                         {{ cuisineInfo.name }}正在创作中...
                       </h3>
-                      <p class="text-gray-600 text-sm mb-3">
+                      <p class="text-pink-400 text-2xl mb-3">
                         {{ cuisineInfo.loadingText || loadingText }}
                       </p>
 

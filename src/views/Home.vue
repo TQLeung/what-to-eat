@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-900 px-2 md:px-4 py-6">
+  <div class="min-h-screen bg-gray-900 px-2 md:px-4 py-6" style="font-family: '思源黑体';">
     <!-- 全局导航 -->
     <!-- <GlobalNavigation /> -->
     <div class="banner max-w-7xl mx-auto px-3 md:px-4 py-2 md:pb-0">
@@ -8,7 +8,7 @@
           src="/images/chef@3x.png"
           alt="Chef"
           class="hidden md:block"
-          style="width: 141px"
+          style="width: 126px"
         />
         <div style="display: flex; flex-direction: column">
           <div class="text-2xl md:text-4xl font-bold text-[rgba(77,107,254,1)]">
@@ -47,7 +47,7 @@
             <div
               class="w-16 h-16 bg-black rounded-lg flex items-center justify-center mx-auto mb-4"
             >
-              <span class="text-white text-2xl"><img src="/icon/树叶.png" style="width: 32px; height: 32px;"/></span>
+              <span class="text-white text-2xl"><img src="/images/rxc.png" style="width: 32px; height: 32px;"/></span>
             </div>
             <h2 class="text-2xl font-bold text-dark-800 mb-2">添加食材</h2>
             <p class="text-gray-600">输入你现有的食材，按回车添加</p>
@@ -218,7 +218,7 @@
                     :key="cuisine.id"
                     @click="selectCuisine(cuisine)"
                     :class="[
-                      'p-2 rounded-lg border-2 border-[#0A0910] font-medium text-sm transition-all duration-200 relative flex items-center justify-center gap-1',
+                      'p-2 rounded-lg border-2 border-[#0A0910] font-medium text-lg transition-all duration-200 relative flex items-center justify-center gap-1',
                       selectedCuisines.includes(cuisine.id)
                         ? 'bg-yellow-400 text-dark-800'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
@@ -243,13 +243,13 @@
                     :key="cuisine.id"
                     @click="selectCuisine(cuisine)"
                     :class="[
-                      'p-2 rounded-lg border-2 border-[#0A0910] font-medium text-sm transition-all duration-200 relative flex items-center justify-center gap-1',
+                      'p-2 rounded-lg border-2 border-[#0A0910] font-medium text-lg transition-all duration-200 relative flex items-center justify-center gap-1',
                       selectedCuisines.includes(cuisine.id)
                         ? 'bg-yellow-400 text-dark-800'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
                     ]"
                   >
-                    <span>{{ cuisine.avatar }}</span>
+                    <span v-html="cuisine.avatar"></span>
                     <span>{{
                       cuisine.name.replace("料理大师", "").replace("大师", "")
                     }}</span>
@@ -448,7 +448,7 @@
               >
                 <span class="text-white text-2xl">👨‍🍳</span>
               </div>
-              <h2 class="text-xl font-bold text-dark-800 mb-2">准备开始烹饪</h2>
+              <h2 class="text-2xl font-bold text-dark-800 mb-2">准备开始烹饪</h2>
               <p class="text-gray-600 mb-4 text-sm">
                 大师已准备就绪，点击按钮开始创作美味佳肴
               </p>

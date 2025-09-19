@@ -78,7 +78,7 @@ export const cuisines: CuisineType[] = [
         id: 'korean',
         name: '韩式料理大师',
         description: '韩半岛的发酵智慧',
-        avatar: '🥢',
+        avatar: '<img src="/icon/筷子.png" style="width: 20px; height: 20px;"/>',
         specialty: '发酵调味，营养均衡',
         prompt: `身为韩食专家，你精通发酵调味精髓。韩式料理讲究发酵食品、营养搭配、辣椒调味和banchan小菜文化。请依据用户食材设计地道韩食，突出发酵风味与营养平衡。回答需包含：韩式菜名、发酵调料运用、营养搭配原理、banchan配菜建议。请务必用中文回答，包括菜名也要翻译成中文。`
     },

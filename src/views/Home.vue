@@ -45,9 +45,9 @@
         >
           <div class="text-center mb-6">
             <div
-              class="w-16 h-16 bg-black rounded-lg flex items-center justify-center mx-auto mb-4"
+              class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mx-auto mb-4"
             >
-              <span class="text-white text-2xl"><img src="/images/rxc.png" style="width: 32px; height: 32px;"/></span>
+              <span class="text-white text-2xl"><img src="/images/rxc.png" style="width: 52px;"/></span>
             </div>
             <h2 class="text-2xl font-bold text-dark-800 mb-2">添加食材</h2>
             <p class="text-gray-600">输入你现有的食材，按回车添加</p>
@@ -444,9 +444,9 @@
           >
             <div class="text-center h-full flex flex-col">
               <div
-                class="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-lg flex items-center justify-center mx-auto mb-4"
+                class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mx-auto mb-4"
               >
-                <span class="text-white text-2xl">👨‍🍳</span>
+                <span class="text-white text-2xl"><img src="/images/rxc.png" style="width: 52px;"/></span>
               </div>
               <h2 class="text-2xl font-bold text-dark-800 mb-2">准备开始烹饪</h2>
               <p class="text-gray-600 mb-4 text-sm">

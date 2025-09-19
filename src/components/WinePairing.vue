@@ -30,7 +30,7 @@
                 </div>
 
                 <!-- 侍酒建议 -->
-                <div class="grid grid-cols-2 gap-3 text-xs">
+                <div class="grid grid-cols-2 gap-3 text-md">
                     <div class="bg-blue-50 rounded p-2 border border-blue-200">
                         <div class="flex items-center gap-1 mb-1">
                             <span>🌡️</span>

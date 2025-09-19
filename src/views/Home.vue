@@ -11,7 +11,7 @@
           style="width: 126px;"
         />
         <div style="display: flex; flex-direction: column">
-          <div class="text-2xl md:text-4xl font-bold text-[rgba(77,107,254,1)]">
+          <div class="text-2xl md:text-6xl font-bold text-[rgba(77,107,254,1)]">
             AI智慧大厨
           </div>
           <div
@@ -38,7 +38,7 @@
         <div
           class="bg-pink-400 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block"
         >
-          <span class="font-bold">1. 输入食材</span>
+          <span class="text-2xl">1. 输入食材</span>
         </div>
         <div
           class="bg-white border-2 border-[#0A0910] rounded-lg rounded-tl-none p-4 md:p-6 md:pb-10"
@@ -47,10 +47,10 @@
             <div
               class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mx-auto mb-4"
             >
-              <span class="text-white text-2xl"><img src="/images/rxc.png" style="width: 52px;"/></span>
+              <span class="text-white text-2xl"><img src="/images/rxc.png" style="width: 96px;"/></span>
             </div>
-            <h2 class="text-2xl font-bold text-dark-800 mb-2">添加食材</h2>
-            <p class="text-gray-600">输入你现有的食材，按回车添加</p>
+            <h2 class="text-4xl font-bold text-dark-800 mb-2">添加食材</h2>
+            <p class="text-gray-600 text-2xl">输入你现有的食材，按回车添加</p>
             <p class="text-md text-gray-500 mt-1">
               支持蔬菜、肉类、调料等 (最多10种)
             </p>
@@ -63,14 +63,14 @@
               <div
                 v-for="ingredient in ingredients"
                 :key="ingredient"
-                class="inline-flex items-center gap-2 bg-yellow-400 text-dark-800 px-3 py-2 rounded-full text-sm font-medium border-2 border-[#0A0910]"
+                class="inline-flex items-center gap-2 bg-yellow-400 text-dark-800 px-3 py-2 rounded-full text-3xl font-medium border-2 border-[#0A0910]"
               >
                 {{ ingredient }}
                 <button
                   @click="removeIngredient(ingredient)"
                   class="hover:bg-yellow-500 rounded-full p-1 transition-colors"
                 >
-                  <span class="text-xs">✕</span>
+                  <span class="text-3xl">✕</span>
                 </button>
               </div>
             </div>
@@ -93,7 +93,7 @@
               >
                 <span class="flex items-center gap-2">
                   <span class="text-base"><img src="/icon/树叶.png" style="width: 22px; height: 24px;"/></span>
-                  <span class="font-medium">快速选择食材</span>
+                  <span class="text-3xl">快速选择食材</span>
                 </span>
                 <span
                   class="transform transition-transform duration-200 text-gray-400"
@@ -128,8 +128,8 @@
                     >
                       <!-- 分类标题 -->
                       <div class="flex items-center gap-2 mb-2">
-                        <span class="text-sm" v-html="category.icon"></span>
-                        <span class="text-sm font-bold text-gray-700">{{
+                        <span class="text-2xl" v-html="category.icon"></span>
+                        <span class="text-2xl font-bold text-gray-700">{{
                           category.name
                         }}</span>
                         <div class="flex-1 h-px bg-gray-200"></div>
@@ -145,7 +145,7 @@
                             ingredients.includes(item) ||
                             ingredients.length >= 10
                           "
-                          class="px-3 py-1.5 text-md font-medium rounded-full border border-gray-300 hover:border-pink-400 hover:bg-pink-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 transition-all duration-200 hover:shadow-sm"
+                          class="px-3 py-1.5 text-3xl font-medium rounded-full border border-gray-300 hover:border-pink-400 hover:bg-pink-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 transition-all duration-200 hover:shadow-sm"
                           :class="{
                             'bg-yellow-100 border-yellow-400 text-yellow-800 shadow-sm':
                               ingredients.includes(item),
@@ -183,7 +183,7 @@
           <div
             class="bg-green-400 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block"
           >
-            <span class="font-bold">2. 选择菜系</span>
+            <span class="text-2xl">2. 选择菜系</span>
           </div>
           <div
             class="bg-white border-2 border-[#0A0910] rounded-lg rounded-tl-none p-4 md:p-6 h-full"
@@ -208,7 +208,7 @@
               <!-- 中华八大菜系 -->
               <div class="mb-4" :class="{ 'opacity-50': customPrompt.trim() }">
                 <h5
-                  class="text-md font-bold text-gray-700 mb-2 flex items-center gap-1"
+                  class="text-2xl font-bold text-gray-700 mb-2 flex items-center gap-1"
                 >
                   🇨🇳 中华八大菜系
                 </h5>
@@ -218,7 +218,7 @@
                     :key="cuisine.id"
                     @click="selectCuisine(cuisine)"
                     :class="[
-                      'p-2 rounded-lg border-2 border-[#0A0910] font-medium text-lg transition-all duration-200 relative flex items-center justify-center gap-1',
+                      'p-2 rounded-lg border-2 border-[#0A0910] font-medium text-4xl transition-all duration-200 relative flex items-center justify-center gap-1',
                       selectedCuisines.includes(cuisine.id)
                         ? 'bg-yellow-400 text-dark-800'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
@@ -233,7 +233,7 @@
               <!-- 国际菜系 -->
               <div class="mb-6" :class="{ 'opacity-50': customPrompt.trim() }">
                 <h5
-                  class="text-md font-bold text-gray-700 mb-2 flex items-center gap-1"
+                  class="text-2xl font-bold text-gray-700 mb-2 flex items-center gap-1"
                 >
                   🌍 国际菜系
                 </h5>
@@ -243,7 +243,7 @@
                     :key="cuisine.id"
                     @click="selectCuisine(cuisine)"
                     :class="[
-                      'p-2 rounded-lg border-2 border-[#0A0910] font-medium text-lg transition-all duration-200 relative flex items-center justify-center gap-1',
+                      'p-2 rounded-lg border-2 border-[#0A0910] font-medium text-4xl transition-all duration-200 relative flex items-center justify-center gap-1',
                       selectedCuisines.includes(cuisine.id)
                         ? 'bg-yellow-400 text-dark-800'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
@@ -437,7 +437,7 @@
           <div
             class="bg-orange-400 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block"
           >
-            <span class="font-bold">3. 交给大师</span>
+            <span class="text-2xl">3. 交给大师</span>
           </div>
           <div
             class="bg-white border-2 border-[#0A0910] rounded-lg rounded-tl-none p-4 md:p-6 h-full"
@@ -446,10 +446,10 @@
               <div
                 class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mx-auto mb-4"
               >
-                <span class="text-white text-2xl"><img src="/images/rxc.png" style="width: 52px;"/></span>
+                <span class="text-white text-2xl"><img src="/images/rxc.png" style="width: 96px;"/></span>
               </div>
-              <h2 class="text-2xl font-bold text-dark-800 mb-2">准备开始烹饪</h2>
-              <p class="text-gray-600 mb-4 text-sm">
+              <h2 class="text-4xl font-bold text-dark-800 mb-2">准备开始烹饪</h2>
+              <p class="text-gray-600 mb-4 text-2xl">
                 大师已准备就绪，点击按钮开始创作美味佳肴
               </p>
 
@@ -533,7 +533,7 @@
               <button
                 @click="generateRecipes"
                 :disabled="ingredients.length === 0 || isLoading"
-                class="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:from-gray-400 disabled:to-gray-400 text-white px-6 py-3 rounded-lg font-bold text-base md:text-lg border-2 border-[#0A0910] transition-all duration-300 transform disabled:scale-100 disabled:cursor-not-allowed shadow-lg mb-3"
+                class="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:from-gray-400 disabled:to-gray-400 text-white px-6 py-3 rounded-lg font-bold text-base md:text-3xl border-2 border-[#0A0910] transition-all duration-300 transform disabled:scale-100 disabled:cursor-not-allowed shadow-lg mb-3"
               >
                 <span class="flex items-center gap-2 justify-center">
                   <template v-if="isLoading">
@@ -577,7 +577,7 @@
         <div
           class="bg-dark-800 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block"
         >
-          <span class="font-bold">4. 菜谱结果</span>
+          <span class="text-2xl">4. 菜谱结果</span>
         </div>
         <div
           class="bg-white border-2 border-[#0A0910] rounded-lg rounded-tl-none p-2 md:p-6"

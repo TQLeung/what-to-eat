@@ -4,7 +4,7 @@
         <div class="bg-pink-400 text-white p-4 md:p-6 border-b-2 border-black">
             <div class="flex items-center justify-between">
                 <div class="flex-1">
-                    <h3 class="text-lg font-bold mb-1 line-clamp-2">{{ recipe.name }}</h3>
+                    <h3 class="text-5xl mb-1 line-clamp-2">{{ recipe.name }}</h3>
                     <div class="flex items-center gap-3 text-lg">
                         <span class="bg-white/20 px-2 py-1 rounded text-xs"> 👨‍🍳 {{ recipe.cuisine }} </span>
                         <span>⏱️ {{ formatTime(recipe.cookingTime) }}</span>

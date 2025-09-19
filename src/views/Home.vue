@@ -136,7 +136,7 @@
                       </div>
 
                       <!-- 食材按钮 -->
-                      <div class="flex flex-wrap gap-1.5">
+                      <div class="flex flex-wrap gap-1.5 px-6">
                         <button
                           v-for="item in category.items"
                           :key="item"
@@ -145,7 +145,7 @@
                             ingredients.includes(item) ||
                             ingredients.length >= 10
                           "
-                          class="px-3 py-1.5 text-3xl font-medium rounded-full border border-gray-300 hover:border-pink-400 hover:bg-pink-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 transition-all duration-200 hover:shadow-sm"
+                          class="px-7 py-1.5 text-3xl font-medium rounded-full border border-gray-300 hover:border-pink-400 hover:bg-pink-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 transition-all duration-200 hover:shadow-sm"
                           :class="{
                             'bg-yellow-100 border-yellow-400 text-yellow-800 shadow-sm':
                               ingredients.includes(item),
@@ -218,14 +218,14 @@
                     :key="cuisine.id"
                     @click="selectCuisine(cuisine)"
                     :class="[
-                      'p-2 rounded-lg border-2 border-[#0A0910] font-medium text-4xl transition-all duration-200 relative flex items-center justify-center gap-1',
+                      'p-4 rounded-lg border-2 border-[#0A0910] font-medium text-4xl transition-all duration-200 relative flex items-center justify-center gap-1',
                       selectedCuisines.includes(cuisine.id)
                         ? 'bg-yellow-400 text-dark-800'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
                     ]"
                   >
                     <span>{{ cuisine.avatar }}</span>
-                    <span>{{ cuisine.name.replace("大师", "") }}</span>
+                    <span class="ml-4">{{ cuisine.name.replace("大师", "") }}</span>
                   </button>
                 </div>
               </div>
@@ -250,7 +250,7 @@
                     ]"
                   >
                     <span v-html="cuisine.avatar"></span>
-                    <span>{{
+                    <span class="ml-4">{{
                       cuisine.name.replace("料理大师", "").replace("大师", "")
                     }}</span>
                   </button>

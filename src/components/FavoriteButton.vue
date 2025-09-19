@@ -6,7 +6,8 @@
         :title="isFavorited ? '取消收藏' : '收藏菜谱'"
     >
         <span class="text-xl transition-transform duration-200" :class="{ 'animate-pulse': isLoading }">
-            {{ isFavorited ? '❤️' : '🤍' }}
+            <img v-if="isFavorited" src="/icon/鸡心.png" style="width: 20px; height: 20px;"/>
+            <img v-else src="/icon/鸡心1.png" style="width: 20px; height: 20px;"/>
         </span>
     </button>
 </template>

@@ -11,7 +11,7 @@ export const ingredientCategories: IngredientCategory[] = [
     {
         id: 'meat',
         name: '荤菜',
-        icon: '🥩',
+        icon: '<img src="/icon/五花肉.png" style="width: 20px; height: 20px;"/>',
         color: 'bg-red-100 border-red-300 text-red-800',
         items: ['猪肉', '牛肉', '羊肉', '鸡肉', '鸭肉', '鹅肉', '猪排骨', '牛排', '鸡翅', '鸡腿', '鸡胸肉', '五花肉', '瘦肉', '肉丝', '肉片', '肉丁', '腊肉', '香肠']
     },
@@ -25,7 +25,7 @@ export const ingredientCategories: IngredientCategory[] = [
     {
         id: 'vegetables',
         name: '蔬菜',
-        icon: '🥬',
+        icon: '<img src="/icon/树叶.png" style="width: 20px; height: 20px;"/>',
         color: 'bg-green-100 border-green-300 text-green-800',
         items: [
             '白菜',
@@ -64,7 +64,7 @@ export const ingredientCategories: IngredientCategory[] = [
     {
         id: 'beans',
         name: '豆类',
-        icon: '🫘',
+        icon: '<img src="/icon/蚕豆.png" style="width: 20px; height: 20px;"/>',
         color: 'bg-orange-100 border-orange-300 text-orange-800',
         items: ['豆腐', '豆干', '豆皮', '腐竹', '千张', '豆泡', '毛豆', '豌豆', '蚕豆', '绿豆', '红豆', '黑豆', '豆芽', '豆苗', '豆角', '四季豆']
     },

@@ -22,7 +22,7 @@
         <div class="p-2 md:p-6">
             <!-- 食材列表 -->
             <div class="mb-4">
-                <h4 class="text-sm font-bold text-dark-800 mb-2 flex items-center gap-1">🥬 所需食材</h4>
+                <h4 class="text-sm font-bold text-dark-800 mb-2 flex items-center gap-1"><img src="/icon/树叶.png" style="width: 20px; height: 20px;"/> 所需食材</h4>
                 <div class="flex flex-wrap gap-1">
                     <span v-for="ingredient in recipe.ingredients" :key="ingredient" class="bg-yellow-400 text-dark-800 px-2 py-1 rounded text-xs font-medium border border-black">
                         {{ ingredient }}

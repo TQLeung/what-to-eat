@@ -47,7 +47,7 @@
             <div
               class="w-16 h-16 bg-black rounded-lg flex items-center justify-center mx-auto mb-4"
             >
-              <span class="text-white text-2xl">🥬</span>
+              <span class="text-white text-2xl"><img src="/icon/树叶.png" style="width: 32px; height: 32px;"/></span>
             </div>
             <h2 class="text-2xl font-bold text-dark-800 mb-2">添加食材</h2>
             <p class="text-gray-600">输入你现有的食材，按回车添加</p>
@@ -92,7 +92,7 @@
                 class="flex items-center justify-between w-full p-2 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200"
               >
                 <span class="flex items-center gap-2">
-                  <span class="text-base">🥬</span>
+                  <span class="text-base"><img src="/icon/树叶.png" style="width: 22px; height: 24px;"/></span>
                   <span class="font-medium">快速选择食材</span>
                 </span>
                 <span
@@ -128,7 +128,7 @@
                     >
                       <!-- 分类标题 -->
                       <div class="flex items-center gap-2 mb-2">
-                        <span class="text-sm">{{ category.icon }}</span>
+                        <span class="text-sm" v-html="category.icon"></span>
                         <span class="text-sm font-bold text-gray-700">{{
                           category.name
                         }}</span>
@@ -177,7 +177,7 @@
       </div>
 
       <!-- 步骤2和3: 左右布局 -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <!-- 步骤2: 选择菜系 -->
         <div>
           <div
@@ -433,7 +433,7 @@
         </div>
 
         <!-- 步骤3: 交给大师 -->
-        <div class="max-md:mt-10">
+        <div class="max-lg:mt-10">
           <div
             class="bg-orange-400 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block"
           >
@@ -715,7 +715,7 @@
                       <h4
                         class="text-sm font-bold text-dark-800 mb-2 flex items-center gap-1"
                       >
-                        🥬 使用食材
+                        <img src="/icon/树叶.png" style="width: 20px; height: 20px;"/> 使用食材
                       </h4>
                       <div class="flex flex-wrap gap-1">
                         <span

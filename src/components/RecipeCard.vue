@@ -5,7 +5,7 @@
             <div class="flex items-center justify-between">
                 <div class="flex-1">
                     <h3 class="text-lg font-bold mb-1 line-clamp-2">{{ recipe.name }}</h3>
-                    <div class="flex items-center gap-3 text-sm">
+                    <div class="flex items-center gap-3 text-lg">
                         <span class="bg-white/20 px-2 py-1 rounded text-xs"> 👨‍🍳 {{ recipe.cuisine }} </span>
                         <span>⏱️ {{ formatTime(recipe.cookingTime) }}</span>
                         <span>📊 {{ difficultyText }}</span>
@@ -22,9 +22,9 @@
         <div class="p-2 md:p-6">
             <!-- 食材列表 -->
             <div class="mb-4">
-                <h4 class="text-sm font-bold text-dark-800 mb-2 flex items-center gap-1"><img src="/icon/树叶.png" style="width: 20px; height: 20px;"/> 所需食材</h4>
+                <h4 class="text-lg font-bold text-dark-800 mb-2 flex items-center gap-1"><img src="/icon/树叶.png" style="width: 20px; height: 20px;"/> 所需食材</h4>
                 <div class="flex flex-wrap gap-1">
-                    <span v-for="ingredient in recipe.ingredients" :key="ingredient" class="bg-yellow-400 text-dark-800 px-2 py-1 rounded text-xs font-medium border border-black">
+                    <span v-for="ingredient in recipe.ingredients" :key="ingredient" class="bg-yellow-400 text-dark-800 px-2 py-1 rounded text-md font-medium border border-black">
                         {{ ingredient }}
                     </span>
                 </div>
@@ -33,8 +33,8 @@
             <!-- 制作步骤预览 -->
             <div class="mb-4">
                 <div class="flex items-center justify-between mb-2">
-                    <h4 class="text-sm font-bold text-dark-800 flex items-center gap-1">📝 制作步骤</h4>
-                    <button @click="toggleExpanded" class="bg-gray-100 hover:bg-gray-200 text-dark-800 text-xs px-2 py-1 rounded border border-black transition-colors">
+                    <h4 class="text-lg font-bold text-dark-800 flex items-center gap-1">📝 制作步骤</h4>
+                    <button @click="toggleExpanded" class="bg-gray-100 hover:bg-gray-200 text-dark-800 text-md px-2 py-1 rounded border border-black transition-colors">
                         {{ isExpanded ? '收起' : '展开' }}
                     </button>
                 </div>
@@ -45,7 +45,7 @@
                         <div class="flex-shrink-0 w-5 h-5 bg-dark-800 text-white rounded flex items-center justify-center font-bold text-xs">
                             {{ step.step }}
                         </div>
-                        <p class="text-dark-700 text-xs line-clamp-2">{{ step.description }}</p>
+                        <p class="text-dark-700 text-md line-clamp-2">{{ step.description }}</p>
                     </div>
                     <div v-if="recipe.steps.length > 3" class="text-center py-1">
                         <span class="text-gray-500 text-xs">还有 {{ recipe.steps.length - 3 }} 个步骤...</span>
@@ -59,8 +59,8 @@
                             {{ step.step }}
                         </div>
                         <div class="flex-1">
-                            <p class="text-dark-800 mb-1 text-sm">{{ step.description }}</p>
-                            <div v-if="step.time || step.temperature" class="flex gap-2 text-xs text-gray-600">
+                            <p class="text-dark-800 mb-1 text-lg">{{ step.description }}</p>
+                            <div v-if="step.time || step.temperature" class="flex gap-2 text-md text-gray-600">
                                 <span v-if="step.time" class="bg-white px-2 py-1 rounded border"> ⏱️ {{ formatTime(step.time) }} </span>
                                 <span v-if="step.temperature" class="bg-white px-2 py-1 rounded border"> 🌡️ {{ step.temperature }} </span>
                             </div>
@@ -71,12 +71,12 @@
 
             <!-- 烹饪技巧 -->
             <div v-if="recipe.tips && recipe.tips.length > 0 && isExpanded" class="mb-4">
-                <h4 class="text-sm font-bold text-dark-800 mb-2 flex items-center gap-1">💡 烹饪技巧</h4>
+                <h4 class="text-lg font-bold text-dark-800 mb-2 flex items-center gap-1">💡 烹饪技巧</h4>
                 <div class="bg-yellow-100 border-l-4 border-yellow-400 p-3 rounded-r">
                     <ul class="space-y-1">
                         <li v-for="tip in recipe.tips" :key="tip" class="flex items-start gap-2 text-dark-700">
                             <span class="text-yellow-600 mt-1 text-xs">•</span>
-                            <span class="text-xs">{{ tip }}</span>
+                            <span class="text-md">{{ tip }}</span>
                         </li>
                     </ul>
                 </div>
@@ -85,11 +85,11 @@
             <!-- 营养分析 -->
             <div v-if="isExpanded" class="mb-4">
                 <div class="flex items-center justify-between mb-3">
-                    <h4 class="text-sm font-bold text-dark-800 flex items-center gap-1">📊 营养分析</h4>
+                    <h4 class="text-lg font-bold text-dark-800 flex items-center gap-1">📊 营养分析</h4>
                     <button
                         @click="fetchNutritionAnalysis"
                         :disabled="isFetchingNutrition"
-                        class="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white px-3 py-1 rounded text-xs font-medium border border-black transition-all duration-200 disabled:cursor-not-allowed"
+                        class="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white px-3 py-1 rounded text-md font-medium border border-black transition-all duration-200 disabled:cursor-not-allowed"
                     >
                         <span class="flex items-center gap-1">
                             <template v-if="isFetchingNutrition">
@@ -104,11 +104,11 @@
 
                 <div v-if="isFetchingNutrition" class="bg-gray-50 border-2 border-gray-300 rounded-lg p-6 text-center">
                     <div class="w-12 h-12 border-4 border-gray-300 border-t-green-500 rounded-full animate-spin mx-auto mb-3"></div>
-                    <h5 class="text-sm font-bold text-dark-800 mb-1">营养师正在分析中...</h5>
+                    <h5 class="text-lg font-bold text-dark-800 mb-1">营养师正在分析中...</h5>
                     <p class="text-gray-600 text-xs">{{ nutritionLoadingText }}</p>
                 </div>
 
-                <div v-else-if="nutritionError" class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded text-xs mb-3">
+                <div v-else-if="nutritionError" class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded text-md mb-3">
                     {{ nutritionError }}
                 </div>
 
@@ -122,11 +122,11 @@
             <!-- 酒水搭配 -->
             <div v-if="isExpanded" class="mb-4">
                 <div class="flex items-center justify-between mb-3">
-                    <h4 class="text-sm font-bold text-dark-800 flex items-center gap-1">🍷 酒水搭配</h4>
+                    <h4 class="text-lg font-bold text-dark-800 flex items-center gap-1">🍷 酒水搭配</h4>
                     <button
                         @click="fetchWinePairing"
                         :disabled="isFetchingWine"
-                        class="bg-purple-500 hover:bg-purple-600 disabled:bg-gray-400 text-white px-3 py-1 rounded text-xs font-medium border border-black transition-all duration-200 disabled:cursor-not-allowed"
+                        class="bg-purple-500 hover:bg-purple-600 disabled:bg-gray-400 text-white px-3 py-1 rounded text-md font-medium border border-black transition-all duration-200 disabled:cursor-not-allowed"
                     >
                         <span class="flex items-center gap-1">
                             <template v-if="isFetchingWine">
@@ -141,11 +141,11 @@
 
                 <div v-if="isFetchingWine" class="bg-gray-50 border-2 border-gray-300 rounded-lg p-6 text-center">
                     <div class="w-12 h-12 border-4 border-gray-300 border-t-purple-500 rounded-full animate-spin mx-auto mb-3"></div>
-                    <h5 class="text-sm font-bold text-dark-800 mb-1">侍酒师正在推荐中...</h5>
+                    <h5 class="text-lg font-bold text-dark-800 mb-1">侍酒师正在推荐中...</h5>
                     <p class="text-gray-600 text-xs">{{ wineLoadingText }}</p>
                 </div>
 
-                <div v-else-if="wineError" class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded text-xs mb-3">
+                <div v-else-if="wineError" class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded text-md mb-3">
                     {{ wineError }}
                 </div>
 
@@ -159,11 +159,11 @@
             <!-- 效果图区域 -->
             <div class="mt-4 pt-4 border-t border-gray-200" v-if="false">
                 <div class="flex items-center justify-between mb-3">
-                    <h4 class="text-sm font-bold text-dark-800 flex items-center gap-1">🖼️ 菜品效果图</h4>
+                    <h4 class="text-lg font-bold text-dark-800 flex items-center gap-1">🖼️ 菜品效果图</h4>
                     <button
                         @click="generateImage"
                         :disabled="isGeneratingImage"
-                        class="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-3 py-1 rounded text-xs font-medium border border-black transition-all duration-200 disabled:cursor-not-allowed"
+                        class="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-3 py-1 rounded text-md font-medium border border-black transition-all duration-200 disabled:cursor-not-allowed"
                     >
                         <span class="flex items-center gap-1">
                             <template v-if="isGeneratingImage">
@@ -178,7 +178,7 @@
                 <!-- 加载状态 -->
                 <div v-if="isGeneratingImage" class="bg-gray-50 border-2 border-gray-300 rounded-lg p-6 text-center">
                     <div class="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin mx-auto mb-3"></div>
-                    <h5 class="text-sm font-bold text-dark-800 mb-1">AI画师正在创作中...</h5>
+                    <h5 class="text-lg font-bold text-dark-800 mb-1">AI画师正在创作中...</h5>
                     <p class="text-gray-600 text-xs">{{ imageLoadingText }}</p>
                 </div>
 

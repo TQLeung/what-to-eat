@@ -15,7 +15,7 @@
             AI智慧大厨
           </div>
           <div
-            class="text-xs md:text-base pt-0 md:pt-2 text-[rgba(44,58,234,1)]"
+            class="text-md md:text-base pt-0 md:pt-2 text-[rgba(44,58,234,1)]"
             style="
               font-family: '悠哉字体';
             "
@@ -51,7 +51,7 @@
             </div>
             <h2 class="text-2xl font-bold text-dark-800 mb-2">添加食材</h2>
             <p class="text-gray-600">输入你现有的食材，按回车添加</p>
-            <p class="text-xs text-gray-500 mt-1">
+            <p class="text-md text-gray-500 mt-1">
               支持蔬菜、肉类、调料等 (最多10种)
             </p>
           </div>
@@ -145,7 +145,7 @@
                             ingredients.includes(item) ||
                             ingredients.length >= 10
                           "
-                          class="px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 hover:border-pink-400 hover:bg-pink-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 transition-all duration-200 hover:shadow-sm"
+                          class="px-3 py-1.5 text-md font-medium rounded-full border border-gray-300 hover:border-pink-400 hover:bg-pink-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 transition-all duration-200 hover:shadow-sm"
                           :class="{
                             'bg-yellow-100 border-yellow-400 text-yellow-800 shadow-sm':
                               ingredients.includes(item),
@@ -163,7 +163,7 @@
 
                 <!-- 底部状态栏 -->
                 <div
-                  class="px-3 py-2 bg-gray-50 border-t border-gray-200 text-xs text-gray-500 flex justify-between items-center"
+                  class="px-3 py-2 bg-gray-50 border-t border-gray-200 text-md text-gray-500 flex justify-between items-center"
                 >
                   <span>点击食材快速添加到列表</span>
                   <span class="font-medium"
@@ -273,7 +273,7 @@
                     <span class="font-medium">或自定义要求</span>
                     <span
                       v-if="customPrompt.trim()"
-                      class="text-xs bg-blue-500 text-white px-2 py-1 rounded-full"
+                      class="text-md bg-blue-500 text-white px-2 py-1 rounded-full"
                       >已设置</span
                     >
                   </span>
@@ -339,7 +339,7 @@
                       <!-- 场景预设 -->
                       <div>
                         <h6
-                          class="text-xs font-medium text-gray-700 mb-1 flex items-center gap-1"
+                          class="text-md font-medium text-gray-700 mb-1 flex items-center gap-1"
                         >
                           🎯 场景需求
                         </h6>
@@ -348,7 +348,7 @@
                             v-for="preset in scenePresets"
                             :key="preset.id"
                             @click="applyPreset(preset.prompt)"
-                            class="px-2 py-1 text-xs font-medium rounded-full border border-blue-300 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
+                            class="px-2 py-1 text-md font-medium rounded-full border border-blue-300 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
                           >
                             {{ preset.name }}
                           </button>
@@ -358,7 +358,7 @@
                       <!-- 口味偏好 -->
                       <div>
                         <h6
-                          class="text-xs font-medium text-gray-700 mb-1 flex items-center gap-1"
+                          class="text-md font-medium text-gray-700 mb-1 flex items-center gap-1"
                         >
                           👅 口味偏好
                         </h6>
@@ -367,7 +367,7 @@
                             v-for="preset in tastePresets"
                             :key="preset.id"
                             @click="applyPreset(preset.prompt)"
-                            class="px-2 py-1 text-xs font-medium rounded-full border border-green-300 hover:border-green-400 hover:bg-green-50 hover:text-green-700 transition-all duration-200"
+                            class="px-2 py-1 text-md font-medium rounded-full border border-green-300 hover:border-green-400 hover:bg-green-50 hover:text-green-700 transition-all duration-200"
                           >
                             {{ preset.name }}
                           </button>
@@ -392,12 +392,12 @@
                       v-if="customPrompt.trim()"
                       class="mt-1 flex justify-between items-center"
                     >
-                      <span class="text-xs text-green-600"
+                      <span class="text-md text-green-600"
                         >✓ 已设置自定义要求</span
                       >
                       <button
                         @click="customPrompt = ''"
-                        class="text-xs text-red-600 hover:text-red-700 underline"
+                        class="text-md text-red-600 hover:text-red-700 underline"
                       >
                         清除
                       </button>
@@ -417,7 +417,7 @@
                   <!-- 底部提示 -->
                   <div class="mt-2 pt-2 border-t border-blue-200">
                     <div
-                      class="flex items-center justify-between text-xs text-blue-600"
+                      class="flex items-center justify-between text-md text-blue-600"
                     >
                       <span>💡 提示：越具体越好！</span>
                       <span
@@ -464,7 +464,7 @@
 
                 <!-- 食材列表 -->
                 <div class="mb-2">
-                  <span class="text-xs font-medium text-gray-600"
+                  <span class="text-md font-medium text-gray-600"
                     >食材 ({{ ingredients.length }})：</span
                   >
                   <div
@@ -479,12 +479,12 @@
                       {{ ingredient }}
                     </span>
                   </div>
-                  <span v-else class="text-xs text-gray-400">未添加食材</span>
+                  <span v-else class="text-md text-gray-400">未添加食材</span>
                 </div>
 
                 <!-- 菜系和大师选择 -->
                 <div class="mb-2">
-                  <span class="text-xs font-medium text-gray-600"
+                  <span class="text-md font-medium text-gray-600"
                     >菜系大师 ({{ selectedCuisines.length }})：</span
                   >
                   <div
@@ -494,7 +494,7 @@
                     <div
                       v-for="cuisineId in selectedCuisines"
                       :key="cuisineId"
-                      class="inline-flex items-center gap-1 bg-green-200 text-green-800 px-2 py-1 rounded text-xs mr-1 mb-1"
+                      class="inline-flex items-center gap-1 bg-green-200 text-green-800 px-2 py-1 rounded text-md mr-1 mb-1"
                     >
                       <span>{{
                         cuisines.find((c) => c.id === cuisineId)?.avatar || "👨‍🍳"
@@ -506,20 +506,20 @@
                   </div>
                   <span
                     v-else-if="!customPrompt.trim()"
-                    class="text-xs text-gray-400"
+                    class="text-md text-gray-400"
                     >未选择大师</span
                   >
-                  <span v-else class="text-xs text-blue-600"
+                  <span v-else class="text-md text-blue-600"
                     >使用自定义要求</span
                   >
                 </div>
 
                 <!-- 自定义要求 -->
                 <div v-if="customPrompt.trim()">
-                  <span class="text-xs font-medium text-gray-600"
+                  <span class="text-md font-medium text-gray-600"
                     >自定义要求：</span
                   >
-                  <p class="text-xs text-blue-700 mt-1 bg-blue-50 p-2 rounded">
+                  <p class="text-md text-blue-700 mt-1 bg-blue-50 p-2 rounded">
                     {{
                       customPrompt.length > 50
                         ? customPrompt.substring(0, 50) + "..."
@@ -563,7 +563,7 @@
                 >
                   🍽️ 将生成 {{ selectedCuisines.length }} 个菜系的菜谱
                 </p>
-                <p class="text-xs text-gray-500 mt-1">
+                <p class="text-md text-gray-500 mt-1">
                   大师将为您精心设计菜谱流程
                 </p>
               </div>
@@ -661,7 +661,7 @@
                       >
                         💡 大师的建议
                       </h5>
-                      <div class="text-xs text-yellow-700 space-y-1">
+                      <div class="text-md text-yellow-700 space-y-1">
                         <p>• 试试其他菜系大师，他们可能有不同的想法</p>
                         <p>• 调整一下食材搭配，或许会有惊喜</p>
                         <p>• 使用自定义要求，给大师一些灵感</p>
@@ -694,7 +694,7 @@
                         </h3>
                         <div class="flex items-center gap-3 text-sm">
                           <span
-                            class="bg-white/20 px-2 py-1 rounded text-xs animate-pulse"
+                            class="bg-white/20 px-2 py-1 rounded text-md animate-pulse"
                             >{{ cuisineInfo.name }}</span
                           >
                           <span class="flex items-center gap-1">
@@ -721,7 +721,7 @@
                         <span
                           v-for="ingredient in ingredients"
                           :key="ingredient"
-                          class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs font-medium border border-yellow-400 animate-pulse"
+                          class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-md font-medium border border-yellow-400 animate-pulse"
                         >
                           {{ ingredient }}
                         </span>
@@ -786,13 +786,13 @@
                             ></div>
                           </div>
                         </div>
-                        <p class="text-xs text-gray-500 mt-2">
+                        <p class="text-md text-gray-500 mt-2">
                           {{ Math.round(cuisineInfo.progress) }}% 完成
                         </p>
                       </div>
 
                       <div
-                        class="mt-4 flex justify-center items-center gap-1 text-xs text-gray-500"
+                        class="mt-4 flex justify-center items-center gap-1 text-md text-gray-500"
                       >
                         <span class="animate-bounce" style="animation-delay: 0s"
                           >●</span

@@ -8,25 +8,25 @@
                         <span class="text-2xl">{{ getWineIcon(winePairing.type) }}</span>
                         <div>
                             <h5 class="font-bold text-purple-800">{{ winePairing.name }}</h5>
-                            <p class="text-xs text-gray-600">{{ getWineTypeText(winePairing.type) }}</p>
+                            <p class="text-md text-gray-600">{{ getWineTypeText(winePairing.type) }}</p>
                         </div>
                     </div>
                     <div v-if="winePairing.alcoholContent" class="text-right">
-                        <div class="text-sm font-bold text-purple-600">{{ winePairing.alcoholContent }}</div>
-                        <div class="text-xs text-gray-500">酒精度</div>
+                        <div class="text-lg font-bold text-purple-600">{{ winePairing.alcoholContent }}</div>
+                        <div class="text-md text-gray-500">酒精度</div>
                     </div>
                 </div>
 
                 <!-- 风味描述 -->
                 <div class="mb-3">
-                    <p class="text-sm text-gray-700 italic">"{{ winePairing.flavor }}"</p>
-                    <p v-if="winePairing.origin" class="text-xs text-gray-500 mt-1">产地：{{ winePairing.origin }}</p>
+                    <p class="text-lg text-gray-700 italic">"{{ winePairing.flavor }}"</p>
+                    <p v-if="winePairing.origin" class="text-md text-gray-500 mt-1">产地：{{ winePairing.origin }}</p>
                 </div>
 
                 <!-- 搭配理由 -->
                 <div class="bg-purple-100 rounded-lg p-3 mb-3">
-                    <h6 class="text-xs font-bold text-purple-700 mb-1">🎯 搭配理由</h6>
-                    <p class="text-xs text-purple-800">{{ winePairing.reason }}</p>
+                    <h6 class="text-md font-bold text-purple-700 mb-1">🎯 搭配理由</h6>
+                    <p class="text-md text-purple-800">{{ winePairing.reason }}</p>
                 </div>
 
                 <!-- 侍酒建议 -->
@@ -51,10 +51,10 @@
             <!-- 小贴士 -->
             <div class="bg-yellow-100 border border-yellow-300 rounded-lg p-3">
                 <div class="flex items-start gap-2">
-                    <span class="text-yellow-600 text-sm">💡</span>
+                    <span class="text-yellow-600 text-lg">💡</span>
                     <div>
-                        <h6 class="text-xs font-bold text-yellow-700 mb-1">品鉴小贴士</h6>
-                        <p class="text-xs text-yellow-800">{{ getWineTip(winePairing.type) }}</p>
+                        <h6 class="text-md font-bold text-yellow-700 mb-1">品鉴小贴士</h6>
+                        <p class="text-md text-yellow-800">{{ getWineTip(winePairing.type) }}</p>
                     </div>
                 </div>
             </div>

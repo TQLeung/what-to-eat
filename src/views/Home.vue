@@ -7,8 +7,8 @@
         <img
           src="/images/chef@3x.png"
           alt="Chef"
-          class="hidden md:block"
-          style="width: 126px"
+          class="hidden md:block mx-8"
+          style="width: 126px;"
         />
         <div style="display: flex; flex-direction: column">
           <div class="text-2xl md:text-4xl font-bold text-[rgba(77,107,254,1)]">

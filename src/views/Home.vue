@@ -36,7 +36,7 @@
       <!-- 步骤1: 输入食材 -->
       <div class="mb-6">
         <div
-          class="bg-pink-400 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block"
+          class="bg-pink-400 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block hidden"
         >
           <span class="text-2xl">1. 输入食材</span>
         </div>
@@ -181,7 +181,7 @@
         <!-- 步骤2: 选择菜系 -->
         <div>
           <div
-            class="bg-green-400 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block"
+            class="bg-green-400 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block hidden"
           >
             <span class="text-2xl">2. 选择菜系</span>
           </div>
@@ -210,7 +210,7 @@
                 <h5
                   class="text-2xl font-bold text-gray-700 mb-2 flex items-center gap-1"
                 >
-                  🇨🇳 中华八大菜系
+                  🇨🇳 选择菜系
                 </h5>
                 <div class="grid grid-cols-3 gap-2">
                   <button
@@ -435,7 +435,7 @@
         <!-- 步骤3: 交给大师 -->
         <div class="max-lg:mt-10">
           <div
-            class="bg-orange-400 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block"
+            class="bg-orange-400 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block hidden"
           >
             <span class="text-2xl">3. 交给大师</span>
           </div>
@@ -575,7 +575,7 @@
       <!-- 步骤4: 菜谱结果 -->
       <div ref="resultsSection" class="mt-16">
         <div
-          class="bg-dark-800 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block"
+          class="bg-dark-800 text-white px-4 py-2 rounded-t-lg border-2 border-[#0A0910] border-b-0 inline-block hidden"
         >
           <span class="text-2xl">4. 菜谱结果</span>
         </div>

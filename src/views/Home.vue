@@ -949,7 +949,7 @@ const isLoading = ref(false);
 const loadingText = ref("大师正在挑选食材...");
 const resultsSection = ref<HTMLElement | null>(null);
 const errorMessage = ref("");
-const showIngredientPicker = ref(false);
+const showIngredientPicker = ref(true);
 const showPresetPicker = ref(false);
 const showCustomPrompt = ref(false);
 

@@ -208,7 +208,7 @@
               <!-- 中华八大菜系 -->
               <div class="mb-4" :class="{ 'opacity-50': customPrompt.trim() }">
                 <h5
-                  class="text-xs font-bold text-gray-700 mb-2 flex items-center gap-1"
+                  class="text-md font-bold text-gray-700 mb-2 flex items-center gap-1"
                 >
                   🇨🇳 中华八大菜系
                 </h5>
@@ -233,7 +233,7 @@
               <!-- 国际菜系 -->
               <div class="mb-6" :class="{ 'opacity-50': customPrompt.trim() }">
                 <h5
-                  class="text-xs font-bold text-gray-700 mb-2 flex items-center gap-1"
+                  class="text-md font-bold text-gray-700 mb-2 flex items-center gap-1"
                 >
                   🌍 国际菜系
                 </h5>

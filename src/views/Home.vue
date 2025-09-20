@@ -270,7 +270,7 @@
                 >
                   <span class="flex items-center gap-2">
                     <span class="text-base">💭</span>
-                    <span class="font-medium">或自定义要求</span>
+                    <span class="text-xl">或自定义要求</span>
                     <span
                       v-if="customPrompt.trim()"
                       class="text-md bg-blue-500 text-white px-2 py-1 rounded-full"
@@ -310,7 +310,7 @@
                     >
                       <span class="flex items-center gap-2">
                         <span class="text-base">⚡</span>
-                        <span class="font-medium">快速预设</span>
+                        <span class="text-2xl">快速预设</span>
                       </span>
                       <span
                         class="transform transition-transform duration-200 text-gray-400"
@@ -385,7 +385,7 @@
                       v-model="customPrompt"
                       @input="limitCustomPrompt"
                       placeholder="例如：做一道清淡的汤，适合老人食用，不要太咸..."
-                      class="w-full p-2 border-2 border-blue-300 rounded-lg text-sm resize-none focus:outline-none focus:border-blue-500 h-20"
+                      class="w-full p-2 border-2 border-blue-300 rounded-lg text-2xl resize-none focus:outline-none focus:border-blue-500 h-20"
                       maxlength="200"
                     ></textarea>
                     <div
@@ -408,7 +408,7 @@
                   <div class="mt-2">
                     <button
                       @click="getRandomInspiration"
-                      class="w-full py-1.5 px-2 bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white text-sm font-medium rounded-lg border-2 border-[#0A0910] transition-all duration-200 transform"
+                      class="w-full py-1.5 px-2 bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white text-2xl font-medium rounded-lg border-2 border-[#0A0910] transition-all duration-200 transform"
                     >
                       ✨ 随机灵感
                     </button>

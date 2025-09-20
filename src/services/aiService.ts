@@ -57,7 +57,7 @@ export const generateRecipe = async (
     if (customPrompt) {
       prompt += `
 
-用户的特殊要求：${customPrompt}`;
+用户的特殊要求：${customPrompt}，如果指定了份量，请合理分配各食材重量。`;
     }
 
     prompt += `
@@ -402,7 +402,7 @@ export const generateCustomRecipe = async (
 
 用户提供的食材：${ingredients.join("、")}
 
-用户的特殊要求：${customPrompt}
+用户的特殊要求：${customPrompt}，如果指定了份量，请合理分配各食材重量，务必让全部材料总重量约等于指定份量。
 
 请按照以下JSON格式返回菜谱，不包含营养分析和酒水搭配：
 {

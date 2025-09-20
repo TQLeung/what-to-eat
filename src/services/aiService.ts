@@ -65,7 +65,7 @@ export const generateRecipe = async (
 请按照以下JSON格式返回菜谱，不包含营养分析和酒水搭配：
 {
   "name": "菜品名称",
-  "ingredients": ["食材1", "食材2"],
+  "ingredients": ["食材1(克重)", "食材2(克重)"],
   "steps": [
     {
       "step": 1,
@@ -95,7 +95,7 @@ export const generateRecipe = async (
       ],
       temperature: AI_CONFIG.temperature,
       stream: false,
-    //   thinking: { type: "disabled"}
+      thinking: { type: "enabled"}
     });
 
     // 解析AI响应
@@ -402,12 +402,12 @@ export const generateCustomRecipe = async (
 
 用户提供的食材：${ingredients.join("、")}
 
-用户的特殊要求：${customPrompt}，如果指定了份量，请合理分配各食材重量，务必让全部材料总重量约等于指定份量。
+用户的特殊要求：${customPrompt}，如果指定了份量，请合理分配各食材重量，务必让全部材料总重量约等于指定份量, 并且食材必须有明确克重。
 
 请按照以下JSON格式返回菜谱，不包含营养分析和酒水搭配：
 {
   "name": "菜品名称",
-  "ingredients": ["食材1", "食材2"],
+  "ingredients": ["食材1(克重)", "食材2(克重)"],
   "steps": [
     {
       "step": 1,
@@ -437,9 +437,7 @@ export const generateCustomRecipe = async (
       temperature: AI_CONFIG.temperature,
       max_tokens: 2000,
       stream: false,
-    //   thinking: {
-    //     type: "disabled",
-    //   },
+      thinking: { type: "enabled" },
     });
 
     const aiResponse = response.data.choices[0].message.content;

@@ -496,12 +496,8 @@
                       :key="cuisineId"
                       class="inline-flex items-center gap-1 bg-green-200 text-green-800 px-2 py-1 rounded text-md mr-1 mb-1"
                     >
-                      <span>{{
-                        cuisines.find((c) => c.id === cuisineId)?.avatar || "👨‍🍳"
-                      }}</span>
-                      <span>{{
-                        cuisines.find((c) => c.id === cuisineId)?.name
-                      }}</span>
+                      <span v-html="(cuisines.find((c) => c.id === cuisineId)?.avatar || '👨‍🍳').replace('40px', '11px')"></span>
+                      <span v-if="cuisines.some((c) => c.id === cuisineId) || true" v-html="cuisines.find((c) => c.id === cuisineId)?.name"></span>
                     </div>
                   </div>
                   <span
@@ -1153,6 +1149,7 @@ const getRandomInspiration = () => {
 
 // 选择菜系
 const selectCuisine = (cuisine: CuisineType) => {
+  selectedCuisines.value = [];
   const index = selectedCuisines.value.indexOf(cuisine.id);
   if (index > -1) {
     selectedCuisines.value.splice(index, 1);

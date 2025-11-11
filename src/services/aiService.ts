@@ -477,6 +477,189 @@ export const generateCustomRecipe = async (
   }
 };
 
+export const generateRXRecipe = async (
+  recipe:Recipe,
+  customPrompt?: string
+): Promise<void> => {
+  const r = {
+    recipe_name:recipe.name,
+    ingredients:recipe.ingredients,
+    steps:recipe.steps.map((s)=> ({
+      index:s.step,
+      desc:s.description
+    })),
+  };
+  console.log(r);
+
+  let prompt = `
+用户提供的食材：${r.ingredients.join("、")}
+用户的特殊要求：${customPrompt}，如果指定了份量，请合理分配各食材重量。
+
+# 烹饪步骤转 JSON 数组提示词
+
+## 角色设定
+
+- 你是一个精通烹饪流程智能化的专家，能将自然语言描述的烹饪步骤转化为结构化 JSON 数组。
+- 理解烹饪设备的硬件限制（如料盒容量、搅拌逻辑、火力范围）和操作规范。
+
+## 输入输出说明
+
+- **输入**：
+  - 菜品名称（如：辣椒炒肉）
+  - 包含完整烹饪步骤的自然语言文本（例如："大火爆香后加入 300 克牛肉翻炒"）
+- **输出**：符合预定义规范的 JSON 数组（格式见下文）
+
+## JSON 结构规范
+
+'''json
+[
+    {
+    "action_code": 整数,	 // 操作类型编码规则：
+                           // 10000=火力调节，20000=搅拌正向，20001=搅拌反向
+                           // 30000~30003=料盒1~4。
+                           // >=1000000=调料名称
+
+    "action_name": "字符串",  // 对应action_code的中文
+
+    "desc": "字符串",      // 各烹饪工艺的说明
+                           // 如果是食材料盒，请列出食材名称及重量（例如：五花肉500000mg,酱油30000mg）
+    "desc2": "字符串" ,    // 目前未使用，留空即可
+
+    "flavour_weight": 0,   // 调料重量，单位mg
+                           // 非调料添加操作为0
+
+    "power_rate": 整数,    // 火力功率，单位(W)，1到8档，对应1000W到8000W，
+                           // 非火力调整为0
+
+    "rotate_speed_rpm": 整数,    // 搅拌速度 单位(圈/每分钟)，如13/22/33/42，
+                                 // 非搅拌为0
+
+    "start_millsec": 整数  // 各个工艺开始的时间点，单位(ms)
+    },
+]
+'''
+
+## 强制规则
+
+- **烹饪工艺说明**
+
+  - 每个烹饪工艺步骤的基本单位，
+  - 例如将火力调整至 1000w、料盒投放、调料添加均为一个单独的步骤
+
+- **时间控制**
+
+  - 所有'start_millsec'必须唯一，不得重复
+  - 请注意烹饪的时长的合理性，如最后一步火力归零，相当于炒制结束
+
+- **搅拌逻辑**
+
+  - 搅拌操作一般都是正转反转交替进行，按菜谱需要自行调整，需要注意正转或者反转持续时间不能过短，至少需要持续 5~8 秒
+  - 请注意炒菜时，搅拌的开始时机，避免糊锅
+  - 每次搅拌需明确'rotate_speed_rpm'值
+  - 搅拌时'power_rate'设置为0
+
+- **火力控制**
+
+  - 根据菜谱是否添加热锅
+  - 流程结束时必须添加火力归零步骤：  
+    '{"action_code":10000, "power_rate":0, ...}'
+  - 基于烹饪物理学和热传导原理，结束炒制注意整个炒菜流程的结束时长，需要等食物煮熟才结束
+
+- **料盒管理**
+
+  - 料盒编号限制：仅允许'30000'~'30003'四个料盒
+  - 单料盒容量：≤1000g（超出时拆分到新料盒）
+  - 禁止重复使用同一料盒（每个料盒仅出现一次）
+  - 示例 desc 格式：'"食材1名称:（食材预处理描述，可选）,重量mg;食材2名称:（食材预处理描述，可选）,重量mg"'
+
+- **调料**
+
+  - 一般食材需要预处理才会把调料加入到食材料盒，如果不是请使用单独步骤 action_code>=1000000 作为调料投放
+
+- **单位规范**
+  - 食材重量单位：**毫克(mg)**（1g=1000mg）
+  - 调料操作：'action_code'≥1000000，'flavour_weight'记录实际重量
+  - 调料有且只有以下几种，决添加应上其他调料，请对应上名称和action_code
+[
+{
+	"name":"油",
+	"action_code":1000000
+},
+{
+	"name":"生抽",
+	"action_code":1000002
+},
+{
+	"name":"盐水",
+	"action_code":1000004
+},
+{
+	"name":"料酒",
+	"action_code":1000010
+},
+{
+	"name":"味水",
+	"action_code":1000006
+},
+{
+	"name":"醋",
+	"action_code":1000009
+},
+{
+	"name":"老抽",
+	"action_code":1000008
+},
+{
+	"name":"水",
+	"action_code":1000001
+},
+{
+	"name":"蚝油",
+	"action_code":1000003
+},
+{
+	"name":"水淀粉",
+	"action_code":1000005
+}
+]
+
+# 本次炒菜任务：辣椒炒肉 2kg
+`;
+const response = await aiClient.post("/chat/completions", {
+  model: `deepseek-v3-1-terminus`,
+  messages: [
+    {
+      role: "system",
+      content:
+        "你是一个精通烹饪流程智能化的专家。请严格按照JSON格式返回，不要包含任何其他文字。",
+    },
+    {
+      role: "user",
+      content: prompt,
+    },
+  ],
+  temperature: AI_CONFIG.temperature,
+  stream: false,
+  thinking: { type: "enabled" },
+});
+// 解析AI响应
+// const aiResponse = response.data.choices[0].message.content;
+console.log(response);
+
+// const rjson = JSON.parse(res);
+// console.log('@@@@', rjson);
+// const client = axios.create({
+//     baseURL: 'http://192.168.222.145/'
+// });
+// const rr = await client.post('/mam/recipe/airecipebystep',{
+//     copies:10,
+//     spec:1000,
+//     recipe_category: recipe.name,
+//     recipeSteps: rjson
+// });
+console.log(response);
+}
+
 // 流式生成多个菜系的菜谱
 export const generateMultipleRecipesStream = async (
   ingredients: string[],
@@ -504,6 +687,7 @@ export const generateMultipleRecipesStream = async (
 
       const recipe = await generateRecipe(ingredients, cuisine, customPrompt);
       completedCount++;
+      // generateRXRecipe(recipe, '');
       onRecipeGenerated(recipe, index, total);
     } catch (error) {
       console.error(`生成${cuisine.name}菜谱失败:`, error);

@@ -1163,6 +1163,10 @@ const generateRecipes = async () => {
   if (ingredients.value.length === 0) {
     return;
   }
+  if (selectedCuisines.value.length === 0) {
+    console.log('请先选择菜系');
+    return;
+  }
 
   // 重置状态
   isLoading.value = true;

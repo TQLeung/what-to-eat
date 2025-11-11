@@ -219,7 +219,7 @@
 import { computed, ref, onUnmounted, onMounted } from 'vue'
 import type { Recipe } from '@/types'
 import { generateRecipeImage, type GeneratedImage } from '@/services/imageService'
-import { getNutritionAnalysis, getWinePairing } from '@/services/aiService'
+import { getNutritionAnalysis, getWinePairing, generateRXRecipe } from '@/services/aiService'
 import type { GalleryImage } from '@/services/galleryService'
 import FavoriteButton from './FavoriteButton.vue'
 import NutritionAnalysis from './NutritionAnalysis.vue'
@@ -447,6 +447,7 @@ const getModalImageData = (): GalleryImage | null => {
 onMounted(()=>{
     fetchNutritionAnalysis()
     fetchWinePairing()
+    generateRXRecipe(props.recipe, '')
 })
 onUnmounted(() => {
     if (imageLoadingInterval) {

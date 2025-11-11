@@ -599,6 +599,8 @@
                 <RecipeCard
                   v-if="cuisineInfo.recipe"
                   :recipe="cuisineInfo.recipe"
+                  :requestId="requestId"
+                  :sn="snTraget"
                 />
 
                 <!-- 如果菜谱生成失败，显示友好错误信息 -->
@@ -922,7 +924,8 @@
 </style>
 
 <script setup lang="ts">
-import { ref, onUnmounted } from "vue";
+import { ref, onUnmounted, onMounted } from "vue";
+// import { useRoute } from 'vue-router';
 import { cuisines } from "@/config/cuisines";
 import { ingredientCategories } from "@/config/ingredients";
 import RecipeCard from "@/components/RecipeCard.vue";
@@ -935,9 +938,14 @@ import {
 } from "@/services/aiService";
 import type { Recipe, CuisineType } from "@/types";
 
+// const route = useRoute(); // 2. 获取当前路由对象
+
+
 // 响应式数据
 const ingredients = ref<string[]>([]);
 const currentIngredient = ref("");
+const requestId = ref("");
+const snTraget = ref("");
 const selectedCuisines = ref<string[]>([]);
 const customPrompt = ref("");
 const recipes = ref<Recipe[]>([]);
@@ -948,6 +956,25 @@ const errorMessage = ref("");
 const showIngredientPicker = ref(true);
 const showPresetPicker = ref(false);
 const showCustomPrompt = ref(false);
+
+onMounted(() => {
+  // 3. 通过 route.query 获取参数
+  // console.log(route);
+  // const id = route.query.reqid;
+  // console.log('id:', id);    // 输出：id: 1
+  // 接下来可以使用参数，例如发送API请求
+  // fetchData(id);
+  const urlParams = new URLSearchParams(window.location.search);
+  
+  // 2. 使用 get 方法获取指定参数的值
+  const id = urlParams.get('id');
+  requestId.value = id || 'empty_id';
+  const sn = urlParams.get('sn');
+  snTraget.value = sn || 'empty_sn';
+  
+  // id.value = urlId;
+  // console.log('id:', id); 
+});
 
 // 菜系槽位数据 - 用于显示加载状态和完成状态
 interface CuisineSlot {

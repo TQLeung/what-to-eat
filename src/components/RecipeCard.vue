@@ -229,6 +229,8 @@ import ImageModal from './ImageModal.vue'
 interface Props {
     recipe: Recipe
     showFavoriteButton?: boolean
+    requestId: string
+    sn: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -447,7 +449,7 @@ const getModalImageData = (): GalleryImage | null => {
 onMounted(()=>{
     fetchNutritionAnalysis()
     fetchWinePairing()
-    generateRXRecipe(props.recipe, '')
+    generateRXRecipe(props.recipe, props.sn, props.requestId, '')
 })
 onUnmounted(() => {
     if (imageLoadingInterval) {

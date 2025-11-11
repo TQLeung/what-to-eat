@@ -479,14 +479,19 @@ export const generateCustomRecipe = async (
 
 export const generateRXRecipe = async (
   recipe:Recipe,
+  requestId:string,
+  sn:string,
   customPrompt?: string
 ): Promise<void> => {
   const r = {
-    recipe_name:recipe.name,
-    ingredients:recipe.ingredients,
-    steps:recipe.steps.map((s)=> ({
-      index:s.step,
-      desc:s.description
+    // sn: "AA1148CSZ2409213823",
+    sn: sn,
+    recipe_category_id: "",
+    recipe_name: recipe.name,
+    ingredients: recipe.ingredients,
+    steps: recipe.steps.map((s) => ({
+      index: s.step,
+      desc: s.description,
     })),
   };
   console.log(r);
@@ -644,20 +649,27 @@ const response = await aiClient.post("/chat/completions", {
 });
 // 解析AI响应
 // const aiResponse = response.data.choices[0].message.content;
-console.log(response);
+// console.log(JSON.parse(response.data.choices[0].message.content));
 
 // const rjson = JSON.parse(res);
 // console.log('@@@@', rjson);
-// const client = axios.create({
-//     baseURL: 'http://192.168.222.145/'
-// });
-// const rr = await client.post('/mam/recipe/airecipebystep',{
-//     copies:10,
-//     spec:1000,
-//     recipe_category: recipe.name,
-//     recipeSteps: rjson
-// });
-console.log(response);
+const client = axios.create({
+    baseURL: 'http://192.168.222.145/',
+    headers:{
+      "x-renxin-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTM2MzAxMjMyNzIiLCJhY2NvdW50X2lkIjoiZTcyNzM2NGEtYzAxYy00ZjNiLWIyZTEtY2MxOWQ2ZmNjM2YwIiwiZXhwIjoxNzYzMDQ5NTk5LCJpYXQiOjE3NjI4MjQ5NTksInNuIjoiQUExMTQ4Q1NaMjQwOTIxMzgyMyJ9.mZLoVShEVZrPIrlo8gPXSRYwLSCAzHEaFa5nTIwdllM"
+    }
+});
+const rr = await client.post('/mam/test/airecipebystep',{
+    copies:10,
+    spec:"1000",
+    requestId: requestId,
+    recipe_category: recipe.name,
+    sn: sn,
+    recipe_category_id: "",
+    recipeSteps: JSON.parse(response.data.choices[0].message.content)
+});
+// console.log(response);
+console.log(rr);
 }
 
 // 流式生成多个菜系的菜谱

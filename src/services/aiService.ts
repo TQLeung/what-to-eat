@@ -45,19 +45,21 @@ const aiClient = axios.create({
 export const generateRecipe = async (
   ingredients: string[],
   cuisine: CuisineType,
-  customPrompt?: string
+  spec: string,
+  copies: number,
+  customPrompt?: string,
 ): Promise<Recipe> => {
   try {
     // 构建提示词
     let prompt = `${cuisine.prompt}
 
-用户提供的食材：${ingredients.join("、")}`;
+用户提供的食材：${ingredients.join("、")}， 菜谱指定规格${spec}g，请合理分配各食材重量。`;
 
     // 如果有自定义要求，添加到提示词中
     if (customPrompt) {
       prompt += `
 
-用户的特殊要求：${customPrompt}，如果指定了份量，请合理分配各食材重量。`;
+用户的特殊要求：${customPrompt}`;
     }
 
     prompt += `
@@ -395,14 +397,15 @@ export const generateDishRecipe = async (
 // 使用自定义提示词生成菜谱
 export const generateCustomRecipe = async (
   ingredients: string[],
-  customPrompt: string
+  customPrompt: string,
+  spec: string
 ): Promise<Recipe> => {
   try {
     const prompt = `你是一位专业的厨师，请根据用户提供的食材和特殊要求，生成详细的菜谱。请严格按照JSON格式返回，不要包含任何其他文字。
 
 用户提供的食材：${ingredients.join("、")}
 
-用户的特殊要求：${customPrompt}，如果指定了份量，请合理分配各食材重量，务必让全部材料总重量约等于指定份量, 并且食材必须有明确克重。
+用户的特殊要求：${customPrompt}，菜谱指定规格${spec}g，请合理分配各食材重量。，务必让全部材料总重量约等于指定份量, 并且食材必须有明确克重。
 
 请按照以下JSON格式返回菜谱，不包含营养分析和酒水搭配：
 {
@@ -481,6 +484,8 @@ export const generateRXRecipe = async (
   recipe:Recipe,
   sn:string,
   requestId:string,
+  spec:string,
+  copies:number,
   customPrompt?: string
 ): Promise<void> => {
   const r = {
@@ -497,8 +502,6 @@ export const generateRXRecipe = async (
   console.log(r);
 
   let prompt = `
-用户提供的食材：${r.ingredients.join("、")}
-用户的特殊要求：${customPrompt}，如果指定了份量，请合理分配各食材重量。
 
 # 烹饪步骤转 JSON 数组提示词
 
@@ -628,7 +631,9 @@ export const generateRXRecipe = async (
 }
 ]
 
-# 本次炒菜任务：辣椒炒肉 2kg
+# 本次炒菜任务：
+用户提供的食材：${r.ingredients.join("、")}
+用户的特殊要求：${customPrompt}，指定份量${spec}g，请合理分配各食材重量。
 `;
 const response = await aiClient.post("/chat/completions", {
   model: `deepseek-v3-1-terminus`,
@@ -646,6 +651,7 @@ const response = await aiClient.post("/chat/completions", {
   temperature: AI_CONFIG.temperature,
   stream: false,
   thinking: { type: "enabled" },
+  max_tokens:32000,
 });
 // 解析AI响应
 // const aiResponse = response.data.choices[0].message.content;
@@ -659,14 +665,16 @@ const client = axios.create({
       "x-renxin-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTM2MzAxMjMyNzIiLCJhY2NvdW50X2lkIjoiZTcyNzM2NGEtYzAxYy00ZjNiLWIyZTEtY2MxOWQ2ZmNjM2YwIiwiZXhwIjoxNzYzMDQ5NTk5LCJpYXQiOjE3NjI4MjQ5NTksInNuIjoiQUExMTQ4Q1NaMjQwOTIxMzgyMyJ9.mZLoVShEVZrPIrlo8gPXSRYwLSCAzHEaFa5nTIwdllM"
     }
 });
+const content = response.data.choices[0].message.content;
+console.log(content);
 const rr = await client.post('/mam/test/airecipebystep',{
-    copies:10,
-    spec:"1000",
+    copies:copies,
+    spec:spec,
     requestId: requestId,
     recipe_category: recipe.name,
     sn: sn,
     recipe_category_id: "",
-    recipeSteps: JSON.parse(response.data.choices[0].message.content)
+    recipeSteps: JSON.parse(content)
 });
 // console.log(response);
 console.log(rr);
@@ -674,6 +682,8 @@ console.log(rr);
 
 // 流式生成多个菜系的菜谱
 export const generateMultipleRecipesStream = async (
+  spec: string,
+  copies: number,
   ingredients: string[],
   cuisines: CuisineType[],
   onRecipeGenerated: (recipe: Recipe, index: number, total: number) => void,
@@ -697,7 +707,7 @@ export const generateMultipleRecipesStream = async (
       const delay = 1000 + Math.random() * 2000; // 1-3秒的随机延迟
       await new Promise((resolve) => setTimeout(resolve, delay));
 
-      const recipe = await generateRecipe(ingredients, cuisine, customPrompt);
+      const recipe = await generateRecipe(ingredients, cuisine, spec, copies, customPrompt);
       completedCount++;
       // generateRXRecipe(recipe, '');
       onRecipeGenerated(recipe, index, total);

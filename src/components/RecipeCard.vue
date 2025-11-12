@@ -231,6 +231,8 @@ interface Props {
     showFavoriteButton?: boolean
     requestId: string
     sn: string
+    spec: string
+    copies: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -451,7 +453,7 @@ onMounted(()=>{
     fetchWinePairing()
     // console.log(props.requestId);
     // console.log(props.sn);
-    generateRXRecipe(props.recipe, props.sn, props.requestId, '')
+    generateRXRecipe(props.recipe, props.sn, props.requestId, props.spec, props.copies, '')
 })
 onUnmounted(() => {
     if (imageLoadingInterval) {

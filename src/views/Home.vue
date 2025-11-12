@@ -432,6 +432,59 @@
           </div>
         </div>
 
+        <div class="max-lg:mt-10">
+          <div
+            class="bg-white border-2 border-[#0A0910] rounded-lg rounded-tl-none p-4 md:p-6 h-full"
+          >
+            <div class="text-center h-full flex flex-col">
+              <div
+                class="w-16 h-16 bg-white rounded-lg flex items-center justify-center mx-auto mb-4"
+              >
+                <span class="text-white text-2xl"><img src="/images/rxc.png" style="width: 96px;"/></span>
+              </div>
+              <h2 class="text-2xl font-bold text-dark-800 mb-2">输入菜谱生成规格</h2>
+              <p class="text-gray-600 mb-4 text-lg">
+                输入菜谱重量和份数
+              </p>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- 重量输入框 -->
+            <div>
+              <!-- <label class="block text-sm font-medium text-gray-700 mb-2">生成菜谱重量</label> -->
+              <div class="relative">
+                <input 
+                  type="number" 
+                  v-model="spec" 
+                  placeholder="输入生成菜谱的重量..." 
+                  class="w-full text-center px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  min="1"
+                  required
+                >
+                <span class="absolute right-3 top-3 text-gray-500">g</span>
+              </div>
+            </div>
+            
+            <!-- 份数输入框 -->
+            <div class="relative">
+              <!-- <label class="block text-sm font-medium text-gray-700 mb-2">生成菜谱份数</label> -->
+              <input 
+                type="number" 
+                v-model="copies" 
+                placeholder="需要生成菜谱的份数" 
+                class="w-full text-center px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                min="1"
+                required
+              >
+                <span class="absolute right-3 top-3 text-gray-500">份</span>
+            </div>
+          </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
         <!-- 步骤3: 交给大师 -->
         <div class="max-lg:mt-10">
           <div
@@ -601,6 +654,8 @@
                   :recipe="cuisineInfo.recipe"
                   :requestId="requestId"
                   :sn="snTraget"
+                  :spec="spec"
+                  :copies="copies"
                 />
 
                 <!-- 如果菜谱生成失败，显示友好错误信息 -->
@@ -943,6 +998,8 @@ import type { Recipe, CuisineType } from "@/types";
 
 // 响应式数据
 const ingredients = ref<string[]>([]);
+const spec = ref<string>("2000");
+const copies = ref<number>(1);
 const currentIngredient = ref("");
 const requestId = ref("");
 const snTraget = ref("");
@@ -1187,7 +1244,7 @@ const selectCuisine = (cuisine: CuisineType) => {
 
 // 生成菜谱
 const generateRecipes = async () => {
-  if (ingredients.value.length === 0) {
+  if (ingredients.value.length === 0 || Number(spec.value) <= 0) {
     return;
   }
   if (selectedCuisines.value.length === 0) {
@@ -1262,7 +1319,8 @@ const generateRecipes = async () => {
 
       const customRecipe = await generateCustomRecipe(
         ingredients.value,
-        customPrompt.value.trim()
+        customPrompt.value.trim(),
+        spec.value,
       );
 
       // 完成生成，更新槽位
@@ -1305,6 +1363,8 @@ const generateRecipes = async () => {
 
       // 使用流式生成菜谱，每完成一个就立即显示
       await generateMultipleRecipesStream(
+        spec.value,
+        copies.value,
         ingredients.value,
         selectedCuisineObjects,
         (recipe: Recipe, index: number, total: number) => {
@@ -1422,10 +1482,12 @@ const retryFailedCuisine = async (failedSlot: CuisineSlot) => {
 
     // 重新生成菜谱
     const recipe = customPrompt.value.trim()
-      ? await generateCustomRecipe(ingredients.value, customPrompt.value.trim())
+      ? await generateCustomRecipe(ingredients.value, customPrompt.value.trim(), spec.value)
       : await generateRecipe(
           ingredients.value,
           cuisine,
+          spec.value,
+          copies.value,
           customPrompt.value.trim() || undefined
         );
 

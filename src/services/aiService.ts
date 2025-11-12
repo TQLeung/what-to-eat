@@ -674,7 +674,7 @@ const rr = await client.post('/mam/test/airecipebystep',{
     recipe_category: recipe.name,
     sn: sn,
     recipe_category_id: "",
-    recipeSteps: JSON.parse(content)
+    steps: JSON.parse(content)
 });
 // console.log(response);
 console.log(rr);

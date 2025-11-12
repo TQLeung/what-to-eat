@@ -479,8 +479,8 @@ export const generateCustomRecipe = async (
 
 export const generateRXRecipe = async (
   recipe:Recipe,
-  requestId:string,
   sn:string,
+  requestId:string,
   customPrompt?: string
 ): Promise<void> => {
   const r = {
@@ -654,7 +654,7 @@ const response = await aiClient.post("/chat/completions", {
 // const rjson = JSON.parse(res);
 // console.log('@@@@', rjson);
 const client = axios.create({
-    baseURL: 'http://192.168.222.145/',
+    baseURL: import.meta.env.VITE_BACKEND_BASE_URL || 'http://192.168.222.145',
     headers:{
       "x-renxin-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTM2MzAxMjMyNzIiLCJhY2NvdW50X2lkIjoiZTcyNzM2NGEtYzAxYy00ZjNiLWIyZTEtY2MxOWQ2ZmNjM2YwIiwiZXhwIjoxNzYzMDQ5NTk5LCJpYXQiOjE3NjI4MjQ5NTksInNuIjoiQUExMTQ4Q1NaMjQwOTIxMzgyMyJ9.mZLoVShEVZrPIrlo8gPXSRYwLSCAzHEaFa5nTIwdllM"
     }

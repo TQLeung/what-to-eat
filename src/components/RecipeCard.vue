@@ -449,6 +449,8 @@ const getModalImageData = (): GalleryImage | null => {
 onMounted(()=>{
     fetchNutritionAnalysis()
     fetchWinePairing()
+    // console.log(props.requestId);
+    // console.log(props.sn);
     generateRXRecipe(props.recipe, props.sn, props.requestId, '')
 })
 onUnmounted(() => {

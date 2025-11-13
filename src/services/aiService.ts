@@ -13,7 +13,7 @@ import type {
   CoupleFortuneParams,
   NumberFortuneParams,
 } from "@/types";
-import {TEST_DATA_INSPIRATION_RECIPE}  from "@/config/ai.ts";
+import {TEST_DATA_INSPIRATION_RECIPE, TEST_DATA_INSPIRATION_RECIPE0}  from "@/config/ai.ts";
 // AI服务配置 - 从环境变量读取（菜谱生成模型配置）
 const AI_CONFIG = {
   baseURL:
@@ -102,9 +102,29 @@ export const generateRecipe = async (
 
     // 解析AI响应
     const aiResponse = response.data.choices[0].message.content;
+    return await conetnt2recipe(aiResponse, ingredients, cuisine);
+  } catch (error) {
+    console.error(`生成${cuisine.name}菜谱失败:`, error);
 
+    // 检查是否是400错误或其他特定错误
+    if (error && typeof error === "object" && "response" in error) {
+      const axiosError = error as any;
+      if (axiosError.response?.status === 400) {
+        throw new Error(`${cuisine.name}表示这个食材搭配太有挑战性了`);
+      }
+    }
+
+    // 抛出友好的错误信息
+    throw new Error(`${cuisine.name}暂时学不会这道菜`);
+  }
+};
+
+export const conetnt2recipe = async (content:string,
+  ingredients: string[],
+  cuisine: CuisineType,
+): Promise<Recipe> => {
     // 清理响应内容，提取JSON部分
-    let cleanResponse = aiResponse.trim();
+    let cleanResponse =content.trim();
     if (cleanResponse.startsWith("```json")) {
       cleanResponse = cleanResponse
         .replace(/```json\s*/, "")
@@ -133,23 +153,8 @@ export const generateRecipe = async (
       nutritionAnalysis: undefined,
       winePairing: undefined,
     };
-
     return recipe;
-  } catch (error) {
-    console.error(`生成${cuisine.name}菜谱失败:`, error);
-
-    // 检查是否是400错误或其他特定错误
-    if (error && typeof error === "object" && "response" in error) {
-      const axiosError = error as any;
-      if (axiosError.response?.status === 400) {
-        throw new Error(`${cuisine.name}表示这个食材搭配太有挑战性了`);
-      }
-    }
-
-    // 抛出友好的错误信息
-    throw new Error(`${cuisine.name}暂时学不会这道菜`);
-  }
-};
+}
 
 /**
  * 生成一桌菜的菜单
@@ -635,6 +640,7 @@ export const generateRXRecipe = async (
 用户提供的食材：${r.ingredients.join("、")}
 用户的特殊要求：${customPrompt}，指定份量${spec}g，请合理分配各食材重量。
 `;
+// TODO 发版消除
 const response = TEST_DATA_INSPIRATION_RECIPE;
 // const response = (await recipeInspirationGenerate(prompt)).data;
 // 解析AI响应
@@ -723,8 +729,11 @@ export const generateMultipleRecipesStream = async (
       // 添加一些随机延迟，让生成过程更自然
       const delay = 1000 + Math.random() * 2000; // 1-3秒的随机延迟
       await new Promise((resolve) => setTimeout(resolve, delay));
-
-      const recipe = await generateRecipe(ingredients, cuisine, spec, copies, customPrompt);
+      // const recipe = TEST_DATA_INSPIRATION_RECIPE0;
+      // const recipe = await generateRecipe(ingredients, cuisine, spec, copies, customPrompt);
+      // TODO 发版消除
+      const recipe = await conetnt2recipe(TEST_DATA_INSPIRATION_RECIPE0.choices[0].message.content, ingredients, cuisine);
+      recipe.name = new Date().getTime().toString();
       completedCount++;
       // generateRXRecipe(recipe, '');
       onRecipeGenerated(recipe, index, total);

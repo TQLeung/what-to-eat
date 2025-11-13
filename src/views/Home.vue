@@ -1024,7 +1024,7 @@ onMounted(() => {
   const urlParams = new URLSearchParams(window.location.search);
   
   // 2. 使用 get 方法获取指定参数的值
-  const id = urlParams.get('id');
+  const id = urlParams.get('requestId');
   requestId.value = id || 'empty_id';
   const sn = urlParams.get('sn');
   snTraget.value = sn || 'empty_sn';

@@ -13,7 +13,7 @@ import type {
   CoupleFortuneParams,
   NumberFortuneParams,
 } from "@/types";
-
+import {TEST_DATA_INSPIRATION_RECIPE}  from "@/config/ai.ts";
 // AI服务配置 - 从环境变量读取（菜谱生成模型配置）
 const AI_CONFIG = {
   baseURL:
@@ -635,50 +635,67 @@ export const generateRXRecipe = async (
 用户提供的食材：${r.ingredients.join("、")}
 用户的特殊要求：${customPrompt}，指定份量${spec}g，请合理分配各食材重量。
 `;
-const response = await aiClient.post("/chat/completions", {
-  model: `deepseek-v3-1-terminus`,
-  messages: [
-    {
-      role: "system",
-      content:
-        "你是一个精通烹饪流程智能化的专家。请严格按照JSON格式返回，不要包含任何其他文字。",
-    },
-    {
-      role: "user",
-      content: prompt,
-    },
-  ],
-  temperature: AI_CONFIG.temperature,
-  stream: false,
-  thinking: { type: "enabled" },
-  max_tokens:32000,
-});
+const response = TEST_DATA_INSPIRATION_RECIPE;
+// const response = (await recipeInspirationGenerate(prompt)).data;
 // 解析AI响应
 // const aiResponse = response.data.choices[0].message.content;
 // console.log(JSON.parse(response.data.choices[0].message.content));
 
+await recipeSaveToServer(copies, spec, requestId, recipe, sn, response);
 // const rjson = JSON.parse(res);
 // console.log('@@@@', rjson);
-const client = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_BASE_URL || 'http://192.168.222.145',
-    headers:{
-      "x-renxin-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTM2MzAxMjMyNzIiLCJhY2NvdW50X2lkIjoiZTcyNzM2NGEtYzAxYy00ZjNiLWIyZTEtY2MxOWQ2ZmNjM2YwIiwiZXhwIjoxNzYzMDQ5NTk5LCJpYXQiOjE3NjI4MjQ5NTksInNuIjoiQUExMTQ4Q1NaMjQwOTIxMzgyMyJ9.mZLoVShEVZrPIrlo8gPXSRYwLSCAzHEaFa5nTIwdllM"
-    }
-});
-const content = response.data.choices[0].message.content;
-console.log(content);
-const rr = await client.post('/mam/test/airecipebystep',{
-    copies:copies,
-    spec:spec,
+}
+import type { AxiosResponse } from 'axios';
+const recipeInspirationGenerate = async (prompt:string): Promise<AxiosResponse<any>> => {
+  const response = await aiClient.post("/chat/completions", {
+    model: `deepseek-v3-1-terminus`,
+    messages: [
+      {
+        role: "system",
+        content:
+          "你是一个精通烹饪流程智能化的专家。请严格按照JSON格式返回，不要包含任何其他文字。",
+      },
+      {
+        role: "user",
+        content: prompt,
+      },
+    ],
+    temperature: AI_CONFIG.temperature,
+    stream: false,
+    thinking: { type: "enabled" },
+    max_tokens:32000,
+  });
+  return response;
+}
+const recipeSaveToServer = async (
+  copies: number,
+  spec: string,
+  requestId: string,
+  recipe: Recipe,
+  sn: string,
+  response: any
+): Promise<void> => {
+  const client = axios.create({
+    baseURL: import.meta.env.VITE_BACKEND_BASE_URL || "http://192.168.222.145",
+    headers: {
+      "x-renxin-token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTM2MzAxMjMyNzIiLCJhY2NvdW50X2lkIjoiZTcyNzM2NGEtYzAxYy00ZjNiLWIyZTEtY2MxOWQ2ZmNjM2YwIiwiZXhwIjoxNzYzMDQ5NTk5LCJpYXQiOjE3NjI4MjQ5NTksInNuIjoiQUExMTQ4Q1NaMjQwOTIxMzgyMyJ9.mZLoVShEVZrPIrlo8gPXSRYwLSCAzHEaFa5nTIwdllM",
+    },
+  });
+  const content = response.choices[0].message.content;
+  console.log(content);
+  const rr = await client.post("/mam/test/airecipebystep", {
+    copies: copies,
+    spec: spec,
     requestId: requestId,
     recipe_category: recipe.name,
     sn: sn,
     recipe_category_id: "",
-    steps: JSON.parse(content)
-});
-// console.log(response);
-console.log(rr);
-}
+    steps: JSON.parse(content),
+  });
+  // console.log(response);
+  console.log(rr);
+};
 
 // 流式生成多个菜系的菜谱
 export const generateMultipleRecipesStream = async (

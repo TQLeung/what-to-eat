@@ -254,6 +254,7 @@ interface Props {
     sn: string
     spec: string
     copies: number
+    test: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -487,7 +488,7 @@ const getModalImageData = (): GalleryImage | null => {
     }
 }
 const getGeneratedRXRecipeId = async () => {
-    RXRecipeId.value = await generateRXRecipe(props.recipe, props.sn, props.requestId, props.spec, props.copies, '')
+    RXRecipeId.value = await generateRXRecipe(props.recipe, props.sn, props.requestId, props.spec, props.copies, props.test, '');
     // console.log(`rid:${RXRecipeId.value}`);
     // await recipeSendToDevice(RXRecipeId.value, props.sn, props.requestId)
 }

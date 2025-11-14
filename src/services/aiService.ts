@@ -491,6 +491,7 @@ export const generateRXRecipe = async (
   requestId:string,
   spec:string,
   copies:number,
+  isTest: boolean,
   customPrompt?: string
 ): Promise<string> => {
   const r = {
@@ -640,9 +641,12 @@ export const generateRXRecipe = async (
 用户提供的食材：${r.ingredients.join("、")}
 用户的特殊要求：${customPrompt}，指定份量${spec}g，请合理分配各食材重量。
   `;
-  // TODO 发版消除
-  // const response = TEST_DATA_RECIPE_STEPS;
-  const response = (await recipeInspirationGenerate(prompt)).data;
+  let response = null;
+  if (isTest) {
+    response = TEST_DATA_RECIPE_STEPS;
+  } else {
+    response = (await recipeInspirationGenerate(prompt)).data;
+  }
 
   // 解析AI响应
   // const aiResponse = response.data.choices[0].message.content;
@@ -718,6 +722,7 @@ export const generateMultipleRecipesStream = async (
   ingredients: string[],
   cuisines: CuisineType[],
   onRecipeGenerated: (recipe: Recipe, index: number, total: number) => void,
+  isTest: boolean,
   onRecipeError?: (
     error: Error,
     index: number,
@@ -738,12 +743,15 @@ export const generateMultipleRecipesStream = async (
       const delay = 1000 + Math.random() * 2000; // 1-3秒的随机延迟
       await new Promise((resolve) => setTimeout(resolve, delay));
       // TODO 发版消除
-      const recipe = await generateRecipe(ingredients, cuisine, spec, copies, customPrompt);
-      // const recipe = await conetnt2recipe(TEST_DATA_INSPIRATION_RECIPE.choices[0].message.content, ingredients, cuisine);
-      // recipe.name = new Date().getTime().toString();
+      let recipe = null;
+      if (isTest) {
+        recipe = await conetnt2recipe(TEST_DATA_INSPIRATION_RECIPE.choices[0].message.content, ingredients, cuisine);
+        recipe.name = new Date().getTime().toString();
+      }else{
+        recipe = await generateRecipe(ingredients, cuisine, spec, copies, customPrompt);
+      }
 
       completedCount++;
-      // generateRXRecipe(recipe, '');
       onRecipeGenerated(recipe, index, total);
     } catch (error) {
       console.error(`生成${cuisine.name}菜谱失败:`, error);

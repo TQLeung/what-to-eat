@@ -656,6 +656,7 @@
                   :sn="snTraget"
                   :spec="spec"
                   :copies="copies"
+                  :test="isTest"
                 />
 
                 <!-- 如果菜谱生成失败，显示友好错误信息 -->
@@ -1013,6 +1014,7 @@ const errorMessage = ref("");
 const showIngredientPicker = ref(true);
 const showPresetPicker = ref(false);
 const showCustomPrompt = ref(false);
+const isTest = ref(false); // 是否为测试模式
 
 onMounted(() => {
   // 3. 通过 route.query 获取参数
@@ -1028,6 +1030,8 @@ onMounted(() => {
   requestId.value = id || 'empty_id';
   const sn = urlParams.get('sn');
   snTraget.value = sn || 'empty_sn';
+  const test = urlParams.get('test');
+  isTest.value = test === 'true' ? true : false;
   
   // id.value = urlId;
   // console.log('id:', id); 
@@ -1402,6 +1406,7 @@ const generateRecipes = async () => {
             }, 1000);
           }
         },
+        isTest.value,
         (error: Error, index: number, _cuisine: CuisineType, total: number) => {
           // 处理菜谱生成失败
           const targetSlot = cuisineSlots.value.find(

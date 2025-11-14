@@ -208,12 +208,20 @@
             <div class="mt-4 pt-4 border-t border-gray-200">
               <button
                 @click="generateRXRecipeAndSendToDevice"
+                :disabled="RXRecipeGenerating"
                 class="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:from-gray-400 disabled:to-gray-400 text-white px-6 py-3 rounded-lg font-bold text-base md:text-3xl border-2 border-[#0A0910] transition-all duration-300 transform disabled:scale-100 disabled:cursor-not-allowed shadow-lg mb-3"
               >
                 <span class="flex items-center gap-2 justify-center">
+                  <template v-if="RXRecipeGenerating">
+                    <div
+                      class="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                    ></div>
+                    <span>生成中...</span>
+                  </template>
+                  <template v-else>
                     <span class="text-xl">✨</span>
-                    <span v-if="!RXRecipeGenerating">生成菜谱</span>
-                    <span v-else>生成中...</span>
+                    <span>{{ txt }}</span>
+                  </template>
                 </span>
               </button>
               <div class="text-sm flex justify-center flex-col items-center">
@@ -224,6 +232,56 @@
                   生成可在机器人设备上烹饪的菜谱
                 </p>
               </div>
+            <div v-if="RXRecipeGenerating"
+                class="text-center py-6 bg-gradient-to-br from-orange-50 to-yellow-50 rounded-lg border-2 border-dashed border-orange-200"
+            >
+                <div
+                class="w-16 h-16 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin mx-auto mb-4"
+                ></div>
+                <h3 class="text-4xl font-bold text-dark-800 mb-2">
+                正在创作中...
+                </h3>
+                <p class="text-pink-400 text-2xl mb-3">
+                
+                </p>
+
+                <!-- 进度条 -->
+                <div class="max-w-xs mx-auto">
+                <div
+                    class="bg-gray-200 rounded-full h-3 overflow-hidden"
+                >
+                    <div
+                    class="bg-gradient-to-r from-orange-400 to-yellow-500 h-3 rounded-full transition-all duration-1000 relative"
+                    :style="{ width: '70%' }"
+                    >
+                    <div
+                        class="absolute inset-0 bg-white/30 animate-pulse"
+                    ></div>
+                    </div>
+                </div>
+                <p class="text-md text-gray-500 mt-2">
+                    30% 完成
+                </p>
+                </div>
+
+                <div
+                class="mt-4 flex justify-center items-center gap-1 text-md text-gray-500"
+                >
+                <span class="animate-bounce" style="animation-delay: 0s"
+                    >●</span
+                >
+                <span
+                    class="animate-bounce"
+                    style="animation-delay: 0.2s"
+                    >●</span
+                >
+                <span
+                    class="animate-bounce"
+                    style="animation-delay: 0.4s"
+                    >●</span
+                >
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -276,6 +334,9 @@ const nutritionError = ref('')
 const isFetchingWine = ref(false)
 const wineError = ref('')
 const showImageModal = ref(false)
+const txt0 = '生成菜谱 并 下发设备'
+const txt1 = '菜谱已下发'
+const txt = ref(txt0);
 
 // 图片生成加载文字轮播
 const imageLoadingTexts = [
@@ -330,8 +391,10 @@ const generateRXRecipeAndSendToDevice = () => {
         console.log('check recipe is finish.');
         if (RXRecipeId.value.trim().length > 0){
             // console.log('recipe ffffffffffffffff');
-            recipeSendToDevice(RXRecipeId.value, props.sn, props.requestId)
-            RXRecipeGenerating.value = false
+            recipeSendToDevice(RXRecipeId.value, props.sn, props.requestId, ()=>{
+                txt.value = txt1
+                RXRecipeGenerating.value = false
+            })
             clearInterval(RXRecipeIntervalId.value)
             // console.log('r sent');
         }

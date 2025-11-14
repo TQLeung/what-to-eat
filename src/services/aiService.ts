@@ -643,7 +643,7 @@ export const generateRXRecipe = async (
   `;
   let response = null;
   if (isTest) {
-    response = TEST_DATA_RECIPE_STEPS;
+    response = await new Promise((resolve) => setTimeout(() => resolve(TEST_DATA_RECIPE_STEPS), testDelay));
   } else {
     response = (await recipeInspirationGenerate(prompt)).data;
   }
@@ -686,10 +686,11 @@ const clientRX = axios.create({
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTM2MzAxMjMyNzIiLCJhY2NvdW50X2lkIjoiZTcyNzM2NGEtYzAxYy00ZjNiLWIyZTEtY2MxOWQ2ZmNjM2YwIiwiZXhwIjoxOTQzMTA3MTk5LCJpYXQiOjE3NjMwODk2MjUsInNuIjoiQUExMTQ4Q1NaMjQwOTIxMzgyMyJ9.1YnbsE4mEl-qaCTCXqIxSPfSR5AXu_QRD8081CY-nUc",
   },
 });
-export const recipeSendToDevice = async (recipeId:string, sn:string, requestId:string): Promise<void> => {
+export const recipeSendToDevice = async (recipeId:string, sn:string, requestId:string, fn:any): Promise<void> => {
   const rr = await clientRX.post(`/mam/recipe/send_to_device_dev/${recipeId}/${sn}?requestId=${requestId}`, {
   });
   console.log('Rdown',rr);
+  fn();
 }
 const recipeSaveToServer = async (
   copies: number,
@@ -714,6 +715,7 @@ const recipeSaveToServer = async (
   console.log(rr);
   return rr.data.data;
 };
+const testDelay = 10000;
 
 // 流式生成多个菜系的菜谱
 export const generateMultipleRecipesStream = async (
@@ -743,9 +745,9 @@ export const generateMultipleRecipesStream = async (
       const delay = 1000 + Math.random() * 2000; // 1-3秒的随机延迟
       await new Promise((resolve) => setTimeout(resolve, delay));
       // TODO 发版消除
-      let recipe = null;
+      let recipe : any = null;
       if (isTest) {
-        recipe = await conetnt2recipe(TEST_DATA_INSPIRATION_RECIPE.choices[0].message.content, ingredients, cuisine);
+        recipe = await new Promise((resolve) => setTimeout(() => resolve(conetnt2recipe(TEST_DATA_INSPIRATION_RECIPE.choices[0].message.content, ingredients, cuisine)), testDelay));
         recipe.name = new Date().getTime().toString();
       }else{
         recipe = await generateRecipe(ingredients, cuisine, spec, copies, customPrompt);

@@ -28,7 +28,7 @@ export const CUISINE_PROMPTS = {
   "tips": ["技巧1", "技巧2"]
 }`
 }
-export const TEST_DATA_INSPIRATION_RECIPE0 = {
+export const TEST_DATA_INSPIRATION_RECIPE = {
   choices: [
     {
       finish_reason: "stop",
@@ -60,7 +60,7 @@ export const TEST_DATA_INSPIRATION_RECIPE0 = {
     },
   },
 };
-export const TEST_DATA_INSPIRATION_RECIPE = {
+export const TEST_DATA_RECIPE_STEPS = {
   choices: [
     {
       finish_reason: "stop",

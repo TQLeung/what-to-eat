@@ -204,6 +204,27 @@
                     <p class="text-gray-500 text-xs">点击上方按钮生成菜品效果图</p>
                 </div>
             </div>
+
+            <div class="mt-4 pt-4 border-t border-gray-200">
+              <button
+                @click="generateRXRecipeAndSendToDevice"
+                class="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:from-gray-400 disabled:to-gray-400 text-white px-6 py-3 rounded-lg font-bold text-base md:text-3xl border-2 border-[#0A0910] transition-all duration-300 transform disabled:scale-100 disabled:cursor-not-allowed shadow-lg mb-3"
+              >
+                <span class="flex items-center gap-2 justify-center">
+                    <span class="text-xl">✨</span>
+                    <span v-if="!RXRecipeGenerating">生成菜谱</span>
+                    <span v-else>生成中...</span>
+                </span>
+              </button>
+              <div class="text-sm flex justify-center flex-col items-center">
+                <p class="text-blue-600">
+                  🍽️ 将生成 1 个菜系的菜谱
+                </p>
+                <p class="text-md text-gray-500 mt-1">
+                  生成可在机器人设备上烹饪的菜谱
+                </p>
+              </div>
+            </div>
         </div>
     </div>
 
@@ -219,7 +240,7 @@
 import { computed, ref, onUnmounted, onMounted } from 'vue'
 import type { Recipe } from '@/types'
 import { generateRecipeImage, type GeneratedImage } from '@/services/imageService'
-import { getNutritionAnalysis, getWinePairing, generateRXRecipe } from '@/services/aiService'
+import { getNutritionAnalysis, getWinePairing, generateRXRecipe, recipeSendToDevice } from '@/services/aiService'
 import type { GalleryImage } from '@/services/galleryService'
 import FavoriteButton from './FavoriteButton.vue'
 import NutritionAnalysis from './NutritionAnalysis.vue'
@@ -298,6 +319,23 @@ const difficultyText = computed(() => {
     }
     return difficultyMap[props.recipe.difficulty] || '中等'
 })
+const RXRecipeId = ref<string>('')
+const RXRecipeGenerating = ref<boolean>(false)
+const RXRecipeIntervalId = ref<any>(null)
+const generateRXRecipeAndSendToDevice = () => {
+    clearInterval(RXRecipeIntervalId.value)
+    RXRecipeGenerating.value = true
+    RXRecipeIntervalId.value = setInterval(() => {
+        console.log('check recipe is finish.');
+        if (RXRecipeId.value.trim().length > 0){
+            // console.log('recipe ffffffffffffffff');
+            recipeSendToDevice(RXRecipeId.value, props.sn, props.requestId)
+            RXRecipeGenerating.value = false
+            clearInterval(RXRecipeIntervalId.value)
+            // console.log('r sent');
+        }
+    }, 1000); 
+}
 
 // 格式化时间显示
 const formatTime = (minutes: number): string => {
@@ -448,12 +486,17 @@ const getModalImageData = (): GalleryImage | null => {
         generatedAt: new Date().toISOString()
     }
 }
+const getGeneratedRXRecipeId = async () => {
+    RXRecipeId.value = await generateRXRecipe(props.recipe, props.sn, props.requestId, props.spec, props.copies, '')
+    // console.log(`rid:${RXRecipeId.value}`);
+    // await recipeSendToDevice(RXRecipeId.value, props.sn, props.requestId)
+}
 onMounted(()=>{
     fetchNutritionAnalysis()
     fetchWinePairing()
     // console.log(props.requestId);
     // console.log(props.sn);
-    generateRXRecipe(props.recipe, props.sn, props.requestId, props.spec, props.copies, '')
+    getGeneratedRXRecipeId()
 })
 onUnmounted(() => {
     if (imageLoadingInterval) {

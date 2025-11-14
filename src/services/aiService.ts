@@ -13,7 +13,7 @@ import type {
   CoupleFortuneParams,
   NumberFortuneParams,
 } from "@/types";
-import {TEST_DATA_INSPIRATION_RECIPE, TEST_DATA_INSPIRATION_RECIPE0}  from "@/config/ai.ts";
+import {TEST_DATA_RECIPE_STEPS, TEST_DATA_INSPIRATION_RECIPE}  from "@/config/ai.ts";
 // AI服务配置 - 从环境变量读取（菜谱生成模型配置）
 const AI_CONFIG = {
   baseURL:
@@ -492,7 +492,7 @@ export const generateRXRecipe = async (
   spec:string,
   copies:number,
   customPrompt?: string
-): Promise<void> => {
+): Promise<string> => {
   const r = {
     // sn: "AA1148CSZ2409213823",
     sn: sn,
@@ -504,7 +504,7 @@ export const generateRXRecipe = async (
       desc: s.description,
     })),
   };
-  console.log(r);
+  // console.log(r);
 
   let prompt = `
 
@@ -639,17 +639,18 @@ export const generateRXRecipe = async (
 # 本次炒菜任务：
 用户提供的食材：${r.ingredients.join("、")}
 用户的特殊要求：${customPrompt}，指定份量${spec}g，请合理分配各食材重量。
-`;
-// TODO 发版消除
-const response = TEST_DATA_INSPIRATION_RECIPE;
-// const response = (await recipeInspirationGenerate(prompt)).data;
-// 解析AI响应
-// const aiResponse = response.data.choices[0].message.content;
-// console.log(JSON.parse(response.data.choices[0].message.content));
+  `;
+  // TODO 发版消除
+  // const response = TEST_DATA_RECIPE_STEPS;
+  const response = (await recipeInspirationGenerate(prompt)).data;
 
-await recipeSaveToServer(copies, spec, requestId, recipe, sn, response);
-// const rjson = JSON.parse(res);
-// console.log('@@@@', rjson);
+  // 解析AI响应
+  // const aiResponse = response.data.choices[0].message.content;
+  // console.log(JSON.parse(response.data.choices[0].message.content));
+
+  return await recipeSaveToServer(copies, spec, requestId, recipe, sn, response);
+  // const rjson = JSON.parse(res);
+  // console.log('@@@@', rjson);
 }
 import type { AxiosResponse } from 'axios';
 const recipeInspirationGenerate = async (prompt:string): Promise<AxiosResponse<any>> => {
@@ -673,6 +674,19 @@ const recipeInspirationGenerate = async (prompt:string): Promise<AxiosResponse<a
   });
   return response;
 }
+
+const clientRX = axios.create({
+  baseURL: import.meta.env.VITE_BACKEND_BASE_URL || "http://192.168.222.145",
+  headers: {
+    "x-renxin-token":
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTM2MzAxMjMyNzIiLCJhY2NvdW50X2lkIjoiZTcyNzM2NGEtYzAxYy00ZjNiLWIyZTEtY2MxOWQ2ZmNjM2YwIiwiZXhwIjoxOTQzMTA3MTk5LCJpYXQiOjE3NjMwODk2MjUsInNuIjoiQUExMTQ4Q1NaMjQwOTIxMzgyMyJ9.1YnbsE4mEl-qaCTCXqIxSPfSR5AXu_QRD8081CY-nUc",
+  },
+});
+export const recipeSendToDevice = async (recipeId:string, sn:string, requestId:string): Promise<void> => {
+  const rr = await clientRX.post(`/mam/recipe/send_to_device_dev/${recipeId}/${sn}?requestId=${requestId}`, {
+  });
+  console.log('Rdown',rr);
+}
 const recipeSaveToServer = async (
   copies: number,
   spec: string,
@@ -680,17 +694,10 @@ const recipeSaveToServer = async (
   recipe: Recipe,
   sn: string,
   response: any
-): Promise<void> => {
-  const client = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_BASE_URL || "http://192.168.222.145",
-    headers: {
-      "x-renxin-token":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTM2MzAxMjMyNzIiLCJhY2NvdW50X2lkIjoiZTcyNzM2NGEtYzAxYy00ZjNiLWIyZTEtY2MxOWQ2ZmNjM2YwIiwiZXhwIjoxNzYzMDQ5NTk5LCJpYXQiOjE3NjI4MjQ5NTksInNuIjoiQUExMTQ4Q1NaMjQwOTIxMzgyMyJ9.mZLoVShEVZrPIrlo8gPXSRYwLSCAzHEaFa5nTIwdllM",
-    },
-  });
+): Promise<string> => {
   const content = response.choices[0].message.content;
-  console.log(content);
-  const rr = await client.post("/mam/test/airecipebystep", {
+  // console.log(content);
+  const rr = await clientRX.post("/mam/test/airecipebystep", {
     copies: copies,
     spec: spec,
     requestId: requestId,
@@ -701,6 +708,7 @@ const recipeSaveToServer = async (
   });
   // console.log(response);
   console.log(rr);
+  return rr.data.data;
 };
 
 // 流式生成多个菜系的菜谱
@@ -729,11 +737,11 @@ export const generateMultipleRecipesStream = async (
       // 添加一些随机延迟，让生成过程更自然
       const delay = 1000 + Math.random() * 2000; // 1-3秒的随机延迟
       await new Promise((resolve) => setTimeout(resolve, delay));
-      // const recipe = TEST_DATA_INSPIRATION_RECIPE0;
-      // const recipe = await generateRecipe(ingredients, cuisine, spec, copies, customPrompt);
       // TODO 发版消除
-      const recipe = await conetnt2recipe(TEST_DATA_INSPIRATION_RECIPE0.choices[0].message.content, ingredients, cuisine);
-      recipe.name = new Date().getTime().toString();
+      const recipe = await generateRecipe(ingredients, cuisine, spec, copies, customPrompt);
+      // const recipe = await conetnt2recipe(TEST_DATA_INSPIRATION_RECIPE.choices[0].message.content, ingredients, cuisine);
+      // recipe.name = new Date().getTime().toString();
+
       completedCount++;
       // generateRXRecipe(recipe, '');
       onRecipeGenerated(recipe, index, total);

@@ -756,7 +756,7 @@ export const generateMultipleRecipesStream = async (
       // TODO 发版消除
       let recipe : any = null;
       if (isTest) {
-        recipe = await new Promise((resolve) => setTimeout(() => resolve(conetnt2recipe(TEST_DATA_INSPIRATION_RECIPE.choices[0].message.content, ingredients, cuisine)), testDelay));
+        recipe = await new Promise((resolve) => setTimeout(() => resolve(conetnt2recipe(TEST_DATA_INSPIRATION_RECIPE.choices[0].message.content, ingredients, cuisine)), testDelay - 5000));
         recipe.name = new Date().getTime().toString();
       }else{
         recipe = await generateRecipe(ingredients, cuisine, spec, copies, customPrompt);

@@ -252,7 +252,7 @@
                 >
                     <div
                     class="bg-gradient-to-r from-orange-400 to-yellow-500 h-3 rounded-full transition-all duration-1000 relative"
-                    :style="{ width: '70%' }"
+                    :style="{ width: presentageTime+`%` }"
                     >
                     <div
                         class="absolute inset-0 bg-white/30 animate-pulse"
@@ -260,7 +260,7 @@
                     </div>
                 </div>
                 <p class="text-md text-gray-500 mt-2">
-                    30% 完成
+                    {{ presentageTime }}% 完成
                 </p>
                 </div>
 
@@ -384,6 +384,8 @@ const difficultyText = computed(() => {
 const RXRecipeId = ref<string>('')
 const RXRecipeGenerating = ref<boolean>(false)
 const RXRecipeIntervalId = ref<any>(null)
+const presentageTime = ref<number>(0)
+const RXRecipeCount = ref<number>(0)
 const generateRXRecipeAndSendToDevice = () => {
     clearInterval(RXRecipeIntervalId.value)
     RXRecipeGenerating.value = true
@@ -397,6 +399,13 @@ const generateRXRecipeAndSendToDevice = () => {
             })
             clearInterval(RXRecipeIntervalId.value)
             // console.log('r sent');
+        }
+        RXRecipeCount.value = RXRecipeCount.value + 1
+        // console.log(RXRecipeCount.value, presentageTime.value);
+        if (presentageTime.value <= 100){
+            presentageTime.value = Number(((RXRecipeCount.value / 300) * 100).toFixed(3))
+        }else{
+            presentageTime.value = 99.9
         }
     }, 1000); 
 }

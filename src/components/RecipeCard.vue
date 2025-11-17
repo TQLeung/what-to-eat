@@ -239,7 +239,7 @@
                 class="w-16 h-16 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin mx-auto mb-4"
                 ></div>
                 <h3 class="text-4xl font-bold text-dark-800 mb-2">
-                正在创作中...
+                AI智慧大厨正在创作中...
                 </h3>
                 <p class="text-pink-400 text-2xl mb-3">
                 

@@ -530,19 +530,20 @@ export const generateRXRecipe = async (
     {
     "action_code": 整数,	 // 操作类型编码规则：
                            // 10000=火力调节，20000=搅拌正向，20001=搅拌反向
-                           // 30000~30003=料盒1~4。
+                           30000~30003=料盒1~4，注意料盒的使用顺序1/2/3/4按顺序使用。
                            // >=1000000=调料名称
 
     "action_name": "字符串",  // 对应action_code的中文
 
-    "desc": "字符串",      // 各烹饪工艺的说明
-                           // 如果是食材料盒，请列出食材名称及重量（例如：五花肉500000mg,酱油30000mg）
+    "desc": "字符串",      // 各烹饪工艺的说明 或者 是食材料盒的JSON数据
+
+
     "desc2": "字符串" ,    // 目前未使用，留空即可
 
     "flavour_weight": 0,   // 调料重量，单位mg
                            // 非调料添加操作为0
 
-    "power_rate": 整数,    // 火力功率，单位(W)，1到8档，对应1000W到8000W，
+    "power_rate": 整数,    // 火力功率，单位(W)，1到8档，对应瓦数为1000W 到 8000W，
                            // 非火力调整为0
 
     "rotate_speed_rpm": 整数,    // 搅拌速度 单位(圈/每分钟)，如13/22/33/42，
@@ -581,10 +582,18 @@ export const generateRXRecipe = async (
 
 - **料盒管理**
 
-  - 料盒编号限制：仅允许'30000'~'30003'四个料盒
-  - 单料盒容量：≤1000g（超出时拆分到新料盒）
+  - 料盒编号限制：仅允许'30000'~'30003'四个料盒,目前机器只有4个料盒，如果食材太多，4个料盒用完了，请使用40000作为手动投料
+  - 单料盒容量：≤1000g，如果食材超出单个料盒容量限制时请拆分到新料盒
   - 禁止重复使用同一料盒（每个料盒仅出现一次）
-  - 示例 desc 格式：'"食材1名称:（食材预处理描述，可选）,重量mg;食材2名称:（食材预处理描述，可选）,重量mg"'
+  - 如果是食材料盒或者手动投料，action_code是30000~49999之间, desc格式必须为如下JSON格式：
+    {
+        "foods":[ 
+          {food:食材一名称, "weight":整数,单位是mg, "user_id":固定为空字符串 },
+          {food:食材二名称, "weight":整数,单位是mg, "user_id":固定为空字符串 },
+          {food:食材三名称, "weight":整数,单位是mg, "user_id":固定为空字符串 },
+          ……
+        ]
+    }
 
 - **调料**
 
@@ -683,7 +692,7 @@ const clientRX = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_BASE_URL || "http://192.168.222.145",
   headers: {
     "x-renxin-token":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTM2MzAxMjMyNzIiLCJhY2NvdW50X2lkIjoiZTcyNzM2NGEtYzAxYy00ZjNiLWIyZTEtY2MxOWQ2ZmNjM2YwIiwiZXhwIjoxOTQzMTA3MTk5LCJpYXQiOjE3NjMwODk2MjUsInNuIjoiQUExMTQ4Q1NaMjQwOTIxMzgyMyJ9.1YnbsE4mEl-qaCTCXqIxSPfSR5AXu_QRD8081CY-nUc",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTM2MzAxMjMyNzIiLCJhY2NvdW50X2lkIjoiZTcyNzM2NGEtYzAxYy00ZjNiLWIyZTEtY2MxOWQ2ZmNjM2YwIiwiZXhwIjoxOTQzMzY2Mzk5LCJpYXQiOjE3NjMzNTk4MTUsInNuIjoiQUExMDQ4Q1NaMjQwODM4MTY1NiJ9.uvGtWIbnl3Yr1Vr4YZj-mE7hZ4LjoHYEABzkz8hC_7s",
   },
 });
 export const recipeSendToDevice = async (recipeId:string, sn:string, requestId:string, fn:any): Promise<void> => {

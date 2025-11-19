@@ -701,6 +701,12 @@ export const recipeSendToDevice = async (recipeId:string, sn:string, requestId:s
   console.log('Rdown',rr);
   fn();
 }
+export const deviceChangePage = async(sn:string, requestId:string): Promise<void> => {
+  const rr = await clientRX.get(`/mam/recipe/send_to_device_notice/aaaaa/${sn}?requestId=${requestId}`);
+  // console.log(response);
+  console.log(rr);
+
+}
 const recipeSaveToServer = async (
   copies: number,
   spec: string,

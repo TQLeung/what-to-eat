@@ -301,7 +301,7 @@
 import { computed, ref, onUnmounted, onMounted } from 'vue'
 import type { Recipe } from '@/types'
 import { generateRecipeImage, type GeneratedImage } from '@/services/imageService'
-import { getNutritionAnalysis, getWinePairing, generateRXRecipe, recipeSendToDevice } from '@/services/aiService'
+import { getNutritionAnalysis, getWinePairing, generateRXRecipe, recipeSendToDevice, deviceChangePage } from '@/services/aiService'
 import type { GalleryImage } from '@/services/galleryService'
 import FavoriteButton from './FavoriteButton.vue'
 import NutritionAnalysis from './NutritionAnalysis.vue'
@@ -339,6 +339,7 @@ const wineError = ref('')
 const showImageModal = ref(false)
 const txt0 = '生成菜谱'
 const txt1 = '菜谱已下发'
+const txt2 = '去查看'
 const txt = ref(txt0);
 
 // 图片生成加载文字轮播
@@ -389,7 +390,20 @@ const RXRecipeGenerating = ref<boolean>(false)
 const RXRecipeIntervalId = ref<any>(null)
 const presentageTime = ref<number>(0)
 const RXRecipeCount = ref<number>(0)
+const RXRecipeStatus = ref<number>(0)  // 1完成灵感菜谱  2完成AI菜谱  3完成设备通知调整页面
 const generateRXRecipeAndSendToDevice = () => {
+    if (RXRecipeStatus.value == 3) {
+        setTimeout(() => {
+            RXRecipeStatus.value = 2
+        }, 60000);
+        return;
+    }
+    if (RXRecipeStatus.value == 2) {
+        deviceChangePage(props.sn, props.requestId)
+        RXRecipeStatus.value = 3
+        return;
+    }
+
     clearInterval(RXRecipeIntervalId.value)
     RXRecipeGenerating.value = true
     RXRecipeIntervalId.value = setInterval(() => {
@@ -399,6 +413,8 @@ const generateRXRecipeAndSendToDevice = () => {
             recipeSendToDevice(RXRecipeId.value, props.sn, props.requestId, ()=>{
                 txt.value = txt1
                 RXRecipeGenerating.value = false
+                RXRecipeStatus.value = 2
+                txt.value = txt2
             })
             clearInterval(RXRecipeIntervalId.value)
             // console.log('r sent');
@@ -406,7 +422,7 @@ const generateRXRecipeAndSendToDevice = () => {
         RXRecipeCount.value = RXRecipeCount.value + 1
         // console.log(RXRecipeCount.value, presentageTime.value);
         if (presentageTime.value <= 100){
-            presentageTime.value = Number(((RXRecipeCount.value / 300) * 100).toFixed(1))
+            presentageTime.value = Number(((RXRecipeCount.value / 390) * 100).toFixed(1))
         }else{
             presentageTime.value = 99.9
         }

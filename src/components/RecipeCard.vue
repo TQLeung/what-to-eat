@@ -210,7 +210,7 @@
                 <div class="mt-4 pt-4 border-gray-200">
                   <button
                     @click="generateRXRecipeAndSendToDevice"
-                    :disabled="RXRecipeGenerating"
+                    :disabled="RXRecipeGenerating || RXRecipeStatus==3"
                     class="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:from-gray-400 disabled:to-gray-400 text-white px-6 py-3 rounded-lg font-bold text-base md:text-3xl border-2 border-[#0A0910] transition-all duration-300 transform disabled:scale-100 disabled:cursor-not-allowed shadow-lg mb-3"
                   >
                     <span class="flex items-center gap-2 justify-center">
@@ -219,6 +219,12 @@
                           class="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"
                         ></div>
                         <span>生成中...</span>
+                      </template>
+                      <template v-else-if="RXRecipeStatus==3">
+                        <div
+                          class="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                        ></div>
+                        <span>跳转中...</span>
                       </template>
                       <template v-else>
                         <span class="text-xl">✨</span>
@@ -395,7 +401,7 @@ const generateRXRecipeAndSendToDevice = () => {
     if (RXRecipeStatus.value == 3) {
         setTimeout(() => {
             RXRecipeStatus.value = 2
-        }, 60000);
+        }, 30000);
         return;
     }
     if (RXRecipeStatus.value == 2) {

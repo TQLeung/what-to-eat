@@ -97,7 +97,7 @@ export const generateRecipe = async (
       ],
       temperature: AI_CONFIG.temperature,
       stream: false,
-      thinking: { type: "enabled"}
+      thinking: { type: "disabled"}
     });
 
     // 解析AI响应
@@ -562,8 +562,8 @@ export const generateRXRecipe = async (
   - 例如将火力调整至 1000w、料盒投放、调料添加均为一个单独的步骤
 
 - **时间控制**
-
-  - 所有'start_millsec'必须唯一，不得重复
+  - **请特别注意整个菜谱烹饪的总时长，务必把菜煮熟，合理安排烹饪时间** 菜谱时长参考：500g规格的菜谱时长一般为 90~120秒，1000g时长为 120~180秒， 2000g时长为 180~300秒， 3000g以上为300秒以上
+  - 所有'tart_millsec'必须唯一，不得重复
   - 请注意烹饪的时长的合理性，如最后一步火力归零，相当于炒制结束
 
 - **搅拌逻辑**
@@ -682,7 +682,7 @@ const recipeInspirationGenerate = async (prompt:string): Promise<AxiosResponse<a
     ],
     temperature: AI_CONFIG.temperature,
     stream: false,
-    thinking: { type: "enabled" },
+    thinking: { type: "disabled" },
     max_tokens:32000,
   });
   return response;

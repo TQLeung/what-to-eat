@@ -15,7 +15,8 @@
             AI智慧大厨
           </div>
           <div
-            class="text-md md:text-base pt-0 md:pt-2 text-[rgba(44,58,234,1)]"
+            class="md:text-base pt-0 md:pt-2 text-[rgba(44,58,234,1)]"
+            :class="isWechat?'text-xs':'text-md'"
             style="
               font-family: '悠哉字体';
             "
@@ -453,7 +454,7 @@
                 <span class="text-white text-2xl"><img src="/images/rxc.png" style="width: 96px;"/></span>
               </div>
               <h2 class="text-2xl font-bold text-dark-800 mb-2">输入菜谱生成规格</h2>
-              <p class="text-gray-600 mb-4 text-lg">
+              <p class="text-gray-600 mb-4" :class="isWechat?'text-md':'text-lg'">
                 输入菜谱重量和份数
               </p>
 
@@ -511,8 +512,8 @@
               >
                 <span class="text-white text-2xl"><img src="/images/rxc.png" style="width: 96px;"/></span>
               </div>
-              <h2 class="text-4xl font-bold text-dark-800 mb-2">准备开始烹饪</h2>
-              <p class="text-gray-600 mb-4 text-2xl">
+              <h2 class="font-bold text-dark-800 mb-2" :class="isWechat?'text-2xl':'text-4xl'">准备开始烹饪</h2>
+              <p class="text-gray-600 mb-4" :class="isWechat?'text-md':'text-2xl'">
                 大师已准备就绪，点击按钮开始创作美味佳肴
               </p>
 

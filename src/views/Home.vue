@@ -11,7 +11,7 @@
           style="width: 126px;"
         />
         <div style="display: flex; flex-direction: column">
-          <div class="text-2xl md:text-6xl font-bold text-[rgba(77,107,254,1)]">
+          <div :class="isWechat ? 'text-xl md:text-5xl font-bold text-[rgba(77,107,254,1)]' : 'text-2xl md:text-6xl font-bold text-[rgba(77,107,254,1)]'">
             AI智慧大厨
           </div>
           <div
@@ -49,9 +49,9 @@
             >
               <span class="text-white text-2xl"><img src="/images/rxc.png" style="width: 96px;"/></span>
             </div>
-            <h2 class="text-4xl font-bold text-dark-800 mb-2">添加食材</h2>
-            <p class="text-gray-600 text-2xl">输入你现有的食材，按回车添加</p>
-            <p class="text-md text-gray-500 mt-1">
+            <h2 :class="isWechat ? 'text-2xl font-bold text-dark-800 mb-2' : 'text-4xl font-bold text-dark-800 mb-2'">添加食材</h2>
+            <p :class="isWechat ? 'text-gray-600 text-md' : 'text-gray-600 text-2xl'">输入你现有的食材，按回车添加</p>
+            <p class="text-gray-500 mt-1" :class="isWechat?'text-xs':'text-md'">
               支持蔬菜、肉类、调料等 (最多10种)
             </p>
           </div>
@@ -63,14 +63,15 @@
               <div
                 v-for="ingredient in ingredients"
                 :key="ingredient"
-                class="inline-flex items-center gap-2 bg-yellow-400 text-dark-800 px-3 py-2 rounded-full text-3xl font-medium border-2 border-[#0A0910]"
+              class="inline-flex items-center gap-2 bg-yellow-400 text-dark-800 px-3 py-2 rounded-full font-medium border-2 border-[#0A0910]"
+              :class="isWechat ? 'text-sm' : 'text-3xl'"
               >
                 {{ ingredient }}
                 <button
                   @click="removeIngredient(ingredient)"
                   class="hover:bg-yellow-500 rounded-full p-1 transition-colors"
                 >
-                  <span class="text-3xl">✕</span>
+                  <span :class="isWechat ? 'text-sm' : 'text-3xl'">✕</span>
                 </button>
               </div>
             </div>
@@ -93,7 +94,7 @@
               >
                 <span class="flex items-center gap-2">
                   <span class="text-base"><img src="/icon/树叶.png" style="width: 22px; height: 24px;"/></span>
-                  <span class="text-3xl">快速选择食材</span>
+                  <span :class="isWechat ? 'text-md' : 'text-3xl'">快速选择食材</span>
                 </span>
                 <span
                   class="transform transition-transform duration-200 text-gray-400"
@@ -128,8 +129,8 @@
                     >
                       <!-- 分类标题 -->
                       <div class="flex items-center gap-2 mb-2">
-                        <span class="text-2xl" v-html="category.icon"></span>
-                        <span class="text-2xl font-bold text-gray-700">{{
+                        <span :class="isWechat ? 'text-md' :'text-2xl'" v-html="category.icon"></span>
+                        <span :class="isWechat ? 'text-md' :'text-2xl'" class="font-bold text-gray-700">{{
                           category.name
                         }}</span>
                         <div class="flex-1 h-px bg-gray-200"></div>
@@ -145,8 +146,12 @@
                             ingredients.includes(item) ||
                             ingredients.length >= 10
                           "
-                          class="px-7 py-1.5 text-3xl font-medium rounded-full border border-gray-300 hover:border-pink-400 hover:bg-pink-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 transition-all duration-200 hover:shadow-sm"
+                      class="py-1.5 font-medium rounded-full border border-gray-300 hover:border-pink-400 hover:bg-pink-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200 transition-all duration-200 hover:shadow-sm"
                           :class="{
+                            'px-3': isWechat,
+                            'px-7': !isWechat,
+                            'text-xs': isWechat,
+                            'text-3xl': !isWechat,
                             'bg-yellow-100 border-yellow-400 text-yellow-800 shadow-sm':
                               ingredients.includes(item),
                             'hover:scale-105':
@@ -163,7 +168,8 @@
 
                 <!-- 底部状态栏 -->
                 <div
-                  class="px-3 py-2 bg-gray-50 border-t border-gray-200 text-md text-gray-500 flex justify-between items-center"
+                  class="px-3 py-2 bg-gray-50 border-t border-gray-200 text-gray-500 flex justify-between items-center"
+                  :class="isWechat?'text-xs':'text-md'"
                 >
                   <span>点击食材快速添加到列表</span>
                   <span class="font-medium"
@@ -208,7 +214,8 @@
               <!-- 中华八大菜系 -->
               <div class="mb-4" :class="{ 'opacity-50': customPrompt.trim() }">
                 <h5
-                  class="text-2xl font-bold text-gray-700 mb-2 flex items-center gap-1"
+                  class="font-bold text-gray-700 mb-2 flex items-center gap-1"
+                  :class="isWechat?'text-xs':'text-2xl'"
                 >
                   🇨🇳 选择菜系
                 </h5>
@@ -218,7 +225,8 @@
                     :key="cuisine.id"
                     @click="selectCuisine(cuisine)"
                     :class="[
-                      'p-4 rounded-lg border-2 border-[#0A0910] font-medium text-4xl transition-all duration-200 relative flex items-center justify-center gap-1',
+                      'rounded-lg border-2 border-[#0A0910] font-medium transition-all duration-200 relative flex items-center justify-center gap-1',
+                      isWechat?'text-sm p-2':'text-4xl p-4',
                       selectedCuisines.includes(cuisine.id)
                         ? 'bg-yellow-400 text-dark-800'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
@@ -233,7 +241,8 @@
               <!-- 国际菜系 -->
               <div class="mb-6" :class="{ 'opacity-50': customPrompt.trim() }">
                 <h5
-                  class="text-2xl font-bold text-gray-700 mb-2 flex items-center gap-1"
+                  class="font-bold text-gray-700 mb-2 flex items-center gap-1"
+                  :class="isWechat?'text-xs':'text-2xl'"
                 >
                   🌍 国际菜系
                 </h5>
@@ -243,13 +252,14 @@
                     :key="cuisine.id"
                     @click="selectCuisine(cuisine)"
                     :class="[
-                      'p-2 rounded-lg border-2 border-[#0A0910] font-medium text-4xl transition-all duration-200 relative flex items-center justify-center gap-1',
+                      'rounded-lg border-2 border-[#0A0910] font-medium transition-all duration-200 relative flex items-center justify-center gap-1',
+                      isWechat?'text-sm p-2':'text-4xl p-4',
                       selectedCuisines.includes(cuisine.id)
                         ? 'bg-yellow-400 text-dark-800'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
                     ]"
                   >
-                    <span v-html="cuisine.avatar"></span>
+                    <span v-html="isWechat? cuisine.avatar.replace('40px', '20px') : cuisine.avatar"></span>
                     <span class="ml-4">{{
                       cuisine.name.replace("料理大师", "").replace("大师", "")
                     }}</span>
@@ -270,7 +280,7 @@
                 >
                   <span class="flex items-center gap-2">
                     <span class="text-base">💭</span>
-                    <span class="text-xl">或自定义要求</span>
+                    <span :class="isWechat ? 'text-medium': 'text-xl'" >或自定义要求</span>
                     <span
                       v-if="customPrompt.trim()"
                       class="text-md bg-blue-500 text-white px-2 py-1 rounded-full"
@@ -1016,6 +1026,9 @@ const showPresetPicker = ref(false);
 const showCustomPrompt = ref(false);
 const isTest = ref(false); // 是否为测试模式
 
+// 新增：判断是否为微信环境
+const isWechat = ref(false);
+
 onMounted(() => {
   // 3. 通过 route.query 获取参数
   // console.log(route);
@@ -1032,6 +1045,10 @@ onMounted(() => {
   snTraget.value = sn || 'empty_sn';
   const test = urlParams.get('test');
   isTest.value = test === 'true' ? true : false;
+  
+  // 新增：获取并判断cf参数
+  const cf = urlParams.get('cf');
+  isWechat.value = cf === 'wechat';
   
   // id.value = urlId;
   // console.log('id:', id); 

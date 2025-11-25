@@ -668,6 +668,7 @@
                   :spec="spec"
                   :copies="copies"
                   :test="isTest"
+                  :is-wechat="isWechat"
                 />
 
                 <!-- 如果菜谱生成失败，显示友好错误信息 -->
